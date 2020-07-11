@@ -1,18 +1,24 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/CaptchaGame/RichTextEffects/Ghost.tres" type="RichTextEffect" id=1]
 [ext_resource path="res://src/CaptchaGame/CaptchaGame.gd" type="Script" id=2]
 [ext_resource path="res://src/CaptchaGame/RichTextEffects/Matrix.tres" type="RichTextEffect" id=3]
 [ext_resource path="res://src/CaptchaGame/RichTextEffects/Pulse.tres" type="RichTextEffect" id=4]
-[ext_resource path="res://src/CaptchaGame/Fonts/48/GOTHIC-48.tres" type="DynamicFont" id=5]
-[ext_resource path="res://src/CaptchaGame/Fonts/TTF/GOTHIC.TTF" type="DynamicFontData" id=6]
-[ext_resource path="res://src/CaptchaGame/Fonts/48/GOTHICI-48.tres" type="DynamicFont" id=7]
-[ext_resource path="res://src/CaptchaGame/Fonts/48/GOTHICBI-48.tres" type="DynamicFont" id=8]
-[ext_resource path="res://src/CaptchaGame/Fonts/48/GOTHICB-48.tres" type="DynamicFont" id=9]
+[ext_resource path="res://src/res/Fonts/48/GOTHIC-48.tres" type="DynamicFont" id=5]
+[ext_resource path="res://src/res/Fonts/24/GOTHIC-24.tres" type="DynamicFont" id=6]
+[ext_resource path="res://src/res/Fonts/48/GOTHICI-48.tres" type="DynamicFont" id=7]
+[ext_resource path="res://src/res/Fonts/48/GOTHICBI-48.tres" type="DynamicFont" id=8]
+[ext_resource path="res://src/res/Fonts/48/GOTHICB-48.tres" type="DynamicFont" id=9]
+[ext_resource path="res://src/res/Window/Captcha/windowbuttoncaptchafail.png" type="Texture" id=10]
+[ext_resource path="res://src/res/Window/Captcha/windowbuttoncaptchasuccess.png" type="Texture" id=11]
+[ext_resource path="res://src/res/Window/Captcha/windowcaptcha.png" type="Texture" id=12]
 
-[sub_resource type="DynamicFont" id=1]
-size = 48
-font_data = ExtResource( 6 )
+[sub_resource type="InputEventKey" id=1]
+pressed = true
+scancode = 16777221
+
+[sub_resource type="ShortCut" id=2]
+shortcut = SubResource( 1 )
 
 [node name="CaptchaGame" type="Node2D"]
 script = ExtResource( 2 )
@@ -29,15 +35,33 @@ wounded"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="Window" type="TextureRect" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -546.0
+margin_top = -408.0
+margin_right = 546.0
+margin_bottom = 408.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 546, 408 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="CaptchaText" type="RichTextLabel" parent="CanvasLayer"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -502.0
-margin_top = -359.0
-margin_right = 498.0
-margin_bottom = 169.0
+margin_left = -220.0
+margin_top = -181.0
+margin_right = 220.0
+margin_bottom = 119.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 220, 150 )
 custom_fonts/bold_italics_font = ExtResource( 8 )
 custom_fonts/italics_font = ExtResource( 7 )
 custom_fonts/bold_font = ExtResource( 9 )
@@ -60,15 +84,35 @@ __meta__ = {
 
 [node name="PlayerInput" type="Label" parent="CanvasLayer"]
 anchor_left = 0.5
-anchor_top = 0.9
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.9
-margin_left = -500.0
-margin_top = -60.0
-margin_right = 500.0
-custom_fonts/font = SubResource( 1 )
+anchor_bottom = 0.5
+margin_left = -132.0
+margin_top = 52.0
+margin_right = 133.0
+margin_bottom = 102.0
+rect_pivot_offset = Vector2( 133, 25 )
+custom_fonts/font = ExtResource( 6 )
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonAuthenticate" type="TextureButton" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -181.5
+margin_top = -245.0
+margin_right = 181.5
+margin_bottom = -174.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 181, 35 )
+shortcut = SubResource( 2 )
+texture_normal = ExtResource( 11 )
+texture_pressed = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

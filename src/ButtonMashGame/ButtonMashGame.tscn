@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/ButtonMashGame/ButtonMashGame.gd" type="Script" id=1]
-[ext_resource path="res://src/CaptchaGame/Fonts/16/GOTHIC16.tres" type="DynamicFont" id=2]
-[ext_resource path="res://src/CaptchaGame/Fonts/16/GOTHICB16.tres" type="DynamicFont" id=3]
-[ext_resource path="res://src/CaptchaGame/Fonts/16/GOTHICI16.tres" type="DynamicFont" id=4]
-[ext_resource path="res://src/CaptchaGame/Fonts/16/GOTHICBI16.tres" type="DynamicFont" id=5]
-[ext_resource path="res://src/ButtonMashGame/Backgrounds/CodeBackground.png" type="Texture" id=6]
-[ext_resource path="res://src/ButtonMashGame/Buttons/ButtonUp.png" type="Texture" id=7]
-[ext_resource path="res://src/ButtonMashGame/Buttons/ButtonDown.png" type="Texture" id=8]
+[ext_resource path="res://src/res/Fonts/16/GOTHIC16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://src/res/Fonts/16/GOTHICB16.tres" type="DynamicFont" id=3]
+[ext_resource path="res://src/res/Fonts/16/GOTHICI16.tres" type="DynamicFont" id=4]
+[ext_resource path="res://src/res/Fonts/16/GOTHICBI16.tres" type="DynamicFont" id=5]
+[ext_resource path="res://src/res/Window/Mash/windowbuttonmashfail.png" type="Texture" id=6]
+[ext_resource path="res://src/res/Window/Mash/windowbuttonmashsuccess.png" type="Texture" id=7]
+[ext_resource path="res://src/res/Window/Mash/windowsoftware.png" type="Texture" id=8]
 
 [node name="ButtonMashGame" type="Node2D"]
 position = Vector2( -1.7818, 0 )
@@ -16,7 +16,7 @@ script = ExtResource( 1 )
 [node name="CodeBackground" type="Sprite" parent="."]
 position = Vector2( 633.771, 327.274 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 6 )
+texture = ExtResource( 8 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -45,7 +45,7 @@ margin_right = 896.829
 margin_bottom = 516.147
 rect_scale = Vector2( 0.5, 0.5 )
 texture_normal = ExtResource( 7 )
-texture_pressed = ExtResource( 8 )
+texture_pressed = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

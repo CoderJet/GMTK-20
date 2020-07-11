@@ -26,7 +26,7 @@ func _ready() -> void:
 
 
 func _unhandled_key_input(event: InputEventKey) -> void:
-	if event.is_pressed():
+	if event.is_pressed() and _is_letter(event.unicode):
 		key_press_count += 3 # Have to play around with this value
 
 		if current_file_type == FILE_TYPE.CODE:
@@ -77,6 +77,12 @@ func _load_file(file) -> void:
 		line += "\n"
 		message += line
 	f.close()
+
+
+func _is_letter(value : int) -> bool:
+	if value in range(65, 90) or value in range(97, 122):
+		return true
+	return false
 
 
 func _on_TextureButton_pressed() -> void:

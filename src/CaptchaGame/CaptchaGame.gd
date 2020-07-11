@@ -25,7 +25,7 @@ func _ready():
 	randomize()
 	var items = KeywordList.split('\n')
 
-	word = items[randi() % items.size()]
+	word = items[randi() % items.size()].strip_edges()
 	randomize()
 	var bbcode_value = BB_CODES[randi() % BB_CODES.size()] % word
 
