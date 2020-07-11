@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var captchaMiniGame = preload("res://src/CaptchaGame/CaptchaGame.tscn")
+onready var buttonMashMiniGame = preload("res://src/ButtonMashGame/ButtonMashGame.tscn")
 
 ## Core functions
 func _init() -> void:
@@ -8,13 +9,19 @@ func _init() -> void:
 	pass
 
 func _unhandled_key_input(event: InputEventKey) -> void:
-	if event.scancode == KEY_SPACE and event.pressed:
-		# Load a minigame randomly, for now
+	if event.scancode == KEY_1 and event.pressed:
 		var instance = captchaMiniGame.instance()
+		add_child(instance)
+	elif event.scancode == KEY_2 and event.pressed:
+		var instance = buttonMashMiniGame.instance()
 		add_child(instance)
 
 ## Public functions
 func LoadCaptcha() -> void:
-	# Load a minigame randomly, for now
 	var instance = captchaMiniGame.instance()
+	add_child(instance)
+
+
+func LoadButtonMash() -> void:
+	var instance = buttonMashMiniGame.instance()
 	add_child(instance)
