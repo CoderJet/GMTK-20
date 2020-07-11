@@ -16,7 +16,15 @@ _global_script_class_icons={
 [application]
 
 config/name="GMTK-20"
+run/main_scene="res://src/CaptchaGame/CaptchaGame.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1000
+window/size/height=800
+window/size/resizable=false
+window/size/always_on_top=true
 
 [rendering]
 
