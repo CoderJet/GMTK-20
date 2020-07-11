@@ -12,6 +12,8 @@ const BB_CODES = [
 	'[pulse color=#00FFAA height=0.0 freq=2.0]%s[/pulse]',
 	'[matrix clean=2.0 dirty=1.0 span=50]%s[/matrix]',
 ]
+signal success
+signal failure
 
 export (String, MULTILINE) var KeywordList
 
@@ -32,15 +34,12 @@ func _ready():
 
 func _unhandled_key_input(event: InputEventKey) -> void:
 	if event.pressed:
-		if (event.scancode == KEY_R):
-			get_tree().reload_current_scene()
-
 		if event.scancode ==  KEY_ENTER:
 			# Submit the text
 			if player_input.text.to_lower() == word.to_lower():
-				print("Correct")
+				emit_signal("success", 1)
 			else:
-				print("Incorrect")
+				emit_signal("failure", 1)
 		elif event.scancode ==  KEY_BACKSPACE:
 			player_input.text = player_input.text.substr(0, player_input.text.length() - 1)
 		else:

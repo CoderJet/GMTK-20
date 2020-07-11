@@ -1,0 +1,239 @@
+#include <bits/stdc++.h>
+
+template<typename T>
+class Graph {
+public:
+	explicit Graph(int n)
+		: n(n)
+		, outgoing_arcs(n)
+		, incoming_arcs(n)
+		, vertex_markers(n, 0)
+	{}
+
+	class Arc {
+	private:
+		int from, to;
+		T* marker;
+	public:
+		int GetReceiver() const {
+			return to;
+		}
+
+		int GetPredecessor() const {
+			return from;
+		}
+
+		T* GetMarker() {
+			return marker;
+		}
+
+		Arc(int from, int to)
+			: from(from)
+			, to(to)
+			, marker(new T())
+		{}
+
+		bool operator == (const Arc& other) const {
+			return from == other.from && to == other.to;
+		}
+	};
+
+	class Marker {
+	private:
+		char id;
+		int counter;
+		std::unordered_map<unsigned long long, T*> markedValues;
+
+	public:
+
+		explicit Marker(char id)
+			: id(id)
+		{}
+
+		void Mark(unsigned long long hashValue, T* markerValue) {
+			if (((*markerValue >> id) & 1) ^ 1) {
+				counter++;
+			}
+			*markerValue |= 1ull << id;
+			markedValues[hashValue] = markerValue;
+		}
+
+		char GetId() const {
+			return id;
+		}
+
+		int GetCounter() const {
+			return counter;
+		}
+
+		void Unmark(unsigned long long hashValue, T* markerValue) {
+			Mark(hashValue, markerValue);
+			*markerValue ^= 1ull << id;
+			counter--;
+			markedValues.erase(hashValue);
+		}
+
+		void UnmarkAll() {
+			for (auto& [key, value] : markedValues) {
+				Unmark(key, value);
+			}
+			markedValues = {};
+		}
+
+	};
+
+	char CreateMarker() {
+		for (auto& marker : markers) {
+			if (marker.GetCounter() == 0) {
+				return marker.GetId();
+			}
+		}
+		char id = markers.size();
+		markers.emplace_back(id);
+		return id;
+	}
+
+	std::vector<Marker>& GetMarkers() {
+		return markers;
+	}
+
+	void RemoveMarker(char id) {
+		if (markers.size() < id) return;
+		markers[id].UnmarkAll();
+		if (id + 1 == markers.size()) {
+			markers.pop_back();
+		}
+	}
+
+	void MarkArc(Arc& arc, char id) {
+		std::cout << "before " << *arc.GetMarker() << std::endl;
+		markers[id].Mark(GetArcHash(arc.GetPredecessor(), arc.GetReceiver()), arc.GetMarker());
+		std::cout << "after " << *arc.GetMarker() << std::endl;
+	}
+
+	void MarkVertex(int index, char id) {
+		markers[id].Mark(GetVertexHash(index), &vertex_markers[index]);
+	}
+
+	void UnmarkArc(Arc& arc, char id) {
+		markers[id].Unmark(GetArcHash(arc.GetPredecessor(), arc.GetReceiver()), arc.GerMarker());
+	}
+
+	void UnmarkVertex(int index, char id) {
+		markers[id].Mark(GetVertexHash(index), &vertex_markers[index]);
+	}
+
+	void AddArc(int from, int to) {
+		Arc arc(from, to);
+		outgoing_arcs[from].push_back(arc);
+		incoming_arcs[to].push_back(arc);
+	}
+
+	void RemoveArc(Arc& arc) {
+		int from = arc.GetPredecessor();
+		int to = arc.GetReceiver();
+		int marker = arc.GetMarker();
+		const auto arcHash = GetArcHash(from, to);
+		for (char id = 0; id < char(std::size(markers)); id++) {
+			if ((marker >> id) & 1) {
+				markers[id].Unmark(arcHash, arc.GetMarker());
+			}
+		}
+		for (size_t i = 0; i < outgoing_arcs[from].size(); i++) {
+			if (outgoing_arcs[from][k] == arc) {
+				std::swap(outgoing_arcs[from][k], outgoing_arcs[from].back());
+				outgoing_arcs[from].pop_back();
+				break;
+			}
+		}
+		for (size_t i = 0; i < incoming_arcs[to].size(); i++) {
+			if (incoming_arcs[to][k] == arc) {
+				std::swap(incoming_arcs[to][k], incoming_arcs[to].back());
+				incoming_arcs[to].pop_back();
+				break;
+			}
+		}
+	}
+
+	std::vector<Arc>& GetOutgoingArcs(int from) {
+		return outgoing_arcs[from];
+	}
+
+	std::vector<Arc>& GetIncomingArcs(int to) {
+		return incoming_arcs[to];
+	}
+
+
+private:
+	unsigned long long GetVertexHash(int index_of_vertex) {
+		return index_of_vertex << 1;
+	}
+
+	unsigned long long GetArcHash(int from, int to) {
+		return ((unsigned long long)(n) * n * from + n * to) << 1 | 1;
+	}
+
+	int n;
+	std::vector<std::vector<Arc>> outgoing_arcs;
+	std::vector<std::vector<Arc>> incoming_arcs;
+	std::vector<T> vertex_markers;
+	std::vector<Marker> markers;
+};
+
+int main() {
+	const int n = 5;
+	Graph<int> graph(n);
+	std::vector<std::pair<int,int>> arcs = {
+		{0, 1},
+		{1, 2},
+		{2, 3},
+		{3, 4},
+		{4, 0}
+	};
+
+	for (auto& [from, to] : arcs) {
+		graph.AddArc(from, to);
+	}
+
+	auto marker = graph.CreateMarker();
+	for (int i = 0; i < n; i++) {
+		auto outgoing = graph.GetOutgoingArcs(i);
+		for (auto& arc : outgoing) {
+			if (rand() & 1) graph.MarkArc(arc, marker);
+		}
+	}
+
+	auto marker2 = graph.CreateMarker();
+	for (int i = 0; i < n; i++) {
+		auto outgoing = graph.GetOutgoingArcs(i);
+		for (auto& arc : outgoing) {
+			if (rand() & 2) graph.MarkArc(arc, marker2);
+		}
+	}
+
+	for (int i = 0; i < n; i++) {
+		auto outgoing = graph.GetOutgoingArcs(i);
+		for (auto& arc : outgoing) {
+			std::cout << *arc.GetMarker() << ' ';
+		}
+	}
+	std::cout << std::endl;
+
+ 	graph.GetMarkers()[marker].UnmarkAll();
+	for (int i = 0; i < n; i++) {
+		auto outgoing = graph.GetOutgoingArcs(i);
+		for (auto& arc : outgoing) {
+			std::cout << *arc.GetMarker() << ' ';
+		}
+	}
+	std::cout << std::endl;
+
+ 	graph.GetMarkers()[marker2].UnmarkAll();
+	for (int i = 0; i < n; i++) {
+		auto outgoing = graph.GetOutgoingArcs(i);
+		for (auto& arc : outgoing) {
+			std::cout << *arc.GetMarker() << ' ';
+		}
+	}
+	std::cout << std::endl;
+}
