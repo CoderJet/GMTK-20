@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://src/SpaceMashGame/SpaceMashGame.gd" type="Script" id=1]
 [ext_resource path="res://src/res/Window/Space/windowbutton_space_continent_northamercia_inactive.png" type="Texture" id=2]
@@ -19,6 +19,8 @@
 [ext_resource path="res://src/res/Window/Space/windowbutton_space_continent_southamerica_inactive.png" type="Texture" id=17]
 [ext_resource path="res://src/res/Window/Space/window_space.png" type="Texture" id=18]
 [ext_resource path="res://src/res/Window/Space/window_space_gauge.png" type="Texture" id=19]
+[ext_resource path="res://src/res/Fonts/72/GOTHICI-72.tres" type="DynamicFont" id=20]
+[ext_resource path="res://src/res/Window/Space/window_space_gauge_full.png" type="Texture" id=21]
 
 [sub_resource type="InputEventKey" id=1]
 pressed = true
@@ -153,7 +155,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureProgress" type="TextureProgress" parent="."]
+[node name="PowerLevel" type="TextureProgress" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -164,7 +166,31 @@ margin_right = 176.5
 margin_bottom = 176.5
 rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 176, 176 )
+value = 45.0
+rounded = true
 texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 21 )
+fill_mode = 4
+radial_initial_angle = 180.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PowerPercentage" type="Label" parent="PowerLevel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -68.0
+margin_top = -44.5
+margin_right = 68.0
+margin_bottom = 44.5
+rect_pivot_offset = Vector2( 68, 45 )
+custom_fonts/font = ExtResource( 20 )
+text = "45%"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ButtonDivertPower" type="TextureButton" parent="."]
 anchor_left = 0.5
@@ -191,3 +217,4 @@ __meta__ = {
 [connection signal="toggled" from="Countries/ButtonSouthAmerica" to="." method="_on_ButtonSouthAmerica_toggled"]
 [connection signal="toggled" from="Countries/ButtonAntartica" to="." method="_on_ButtonAntartica_toggled"]
 [connection signal="toggled" from="Countries/ButtonAustralia" to="." method="_on_ButtonAustralia_toggled"]
+[connection signal="pressed" from="ButtonDivertPower" to="." method="_on_ButtonDivertPower_pressed"]
