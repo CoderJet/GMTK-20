@@ -123,6 +123,13 @@ func open_switch_game(module_caller : int) -> void:
 	if currentNode == null:
 		opening_module = module_caller
 		currentNode = switchMiniGame.instance()
+		randomize()
+
+		if randf() > 0.25:
+			currentNode.initiate_minigame(currentNode.CALL_TYPE.WORK)
+		else:
+			currentNode.initiate_minigame(currentNode.CALL_TYPE.PERSONAL)
+
 		currentNode.connect("finished", self, "_on_switch_closed")
 		add_child(currentNode)
 
