@@ -99,6 +99,6 @@ func _on_TextureButton_pressed() -> void:
 
 	## Check against game's pass criteria
 	if score >= 0.5:
-		emit_signal("finished", true)
+		emit_signal("finished", true, current_file_type)
 	else:
-		emit_signal("finished", false)
+		emit_signal("finished", false, current_file_type)

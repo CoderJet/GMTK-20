@@ -11,7 +11,7 @@ enum COUNTRY {
 }
 
 signal power_stolen
-signal closed
+signal finished
 
 var current_country = COUNTRY.AFRICA
 var power_level : float = 0.45
