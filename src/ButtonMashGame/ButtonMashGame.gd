@@ -22,7 +22,7 @@ var current_file_type = FILE_TYPE.CODE
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#_load_file(temp)
-	initiate_minigame(FILE_TYPE.CODE)
+	initiate_minigame(FILE_TYPE.EMAIL)
 
 
 func _unhandled_key_input(event: InputEventKey) -> void:
