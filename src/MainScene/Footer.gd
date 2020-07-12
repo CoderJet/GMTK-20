@@ -7,6 +7,7 @@ extends Control
 onready var whoops_text = $"WHOOPS Footer"
 onready var whoops_scroll_in = $"WHOOPS Footer Scroll"
 export(float) var speed = 100
+var anim = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,6 +17,12 @@ func _ready():
 	
 	
 	#pass # Replace with function body.
+
+func _start_animation():
+	anim = true
+
+func _stop_animation():
+	anim = false
 
 func _forward(delta, thing):
 	if thing.rect_position.x < 0:
@@ -39,6 +46,9 @@ func _backward(delta, thing):
 
 var swap = true
 func _process(delta):
+	
+	if !anim:
+		return
 	
 	if swap:
 		if _forward(delta, whoops_scroll_in):
