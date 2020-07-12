@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://src/res/Foreground/console_mask.png" type="Texture" id=1]
 [ext_resource path="res://src/res/Background/grid.png" type="Texture" id=2]
@@ -34,6 +34,9 @@
 [ext_resource path="res://GameManager.tscn" type="PackedScene" id=32]
 [ext_resource path="res://src/res/Foreground/progress_BG_line.png" type="Texture" id=33]
 [ext_resource path="res://src/MainScene/Shields.gd" type="Script" id=34]
+[ext_resource path="res://src/res/graphic_failstate_rat.png" type="Texture" id=35]
+[ext_resource path="res://src/res/Foreground/console_mask_button_reboot.png" type="Texture" id=36]
+[ext_resource path="res://src/res/Foreground/console_mask_button_reboot_down.png" type="Texture" id=37]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 9 )
@@ -129,6 +132,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="graphic_failstate_rat" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.498039 )
+position = Vector2( 612.346, 532 )
+scale = Vector2( 0.66, 0.66 )
+texture = ExtResource( 35 )
+
 [node name="Background" type="Panel" parent="."]
 modulate = Color( 0.352941, 0.352941, 0.352941, 1 )
 margin_right = 1280.0
@@ -146,8 +155,12 @@ script = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+background_path = NodePath("../Background")
+rat_path = NodePath("../graphic_failstate_rat")
 abort = ExtResource( 21 )
 abort_down = ExtResource( 30 )
+reboot = ExtResource( 36 )
+reboot_down = ExtResource( 37 )
 
 [node name="UI_Background" type="Control" parent="AnimationController"]
 margin_right = 40.0
@@ -690,16 +703,18 @@ __meta__ = {
 }
 
 [node name="MainGame" parent="." instance=ExtResource( 32 )]
-module_timer = 0.5
+module_timer = 5.0
+ModuleReductionRange = Vector2( 0.0025, 0.09 )
 [connection signal="animation_ended" from="AnimationController" to="MainGame" method="_on_AnimationController_animation_ended"]
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module" method="_button_press"]
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module2/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module2" method="_button_press"]
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module3/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module3" method="_button_press"]
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module4/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module4" method="_button_press"]
-[connection signal="module_update" from="MainGame" to="AnimationController/Modules/ModulesLeft/Module3" method="_module_update"]
-[connection signal="module_update" from="MainGame" to="AnimationController/Modules/ModulesLeft/Module2" method="_module_update"]
-[connection signal="module_update" from="MainGame" to="AnimationController/Modules/ModulesLeft/Module4" method="_module_update"]
+[connection signal="failure" from="MainGame" to="AnimationController" method="_begin_fail_animation"]
 [connection signal="module_update" from="MainGame" to="AnimationController/Modules/ModulesLeft/Module" method="_module_update"]
+[connection signal="module_update" from="MainGame" to="AnimationController/Modules/ModulesLeft/Module2" method="_module_update"]
+[connection signal="module_update" from="MainGame" to="AnimationController/Modules/ModulesLeft/Module3" method="_module_update"]
+[connection signal="module_update" from="MainGame" to="AnimationController/Modules/ModulesLeft/Module4" method="_module_update"]
 [connection signal="shield_level" from="MainGame" to="AnimationController/Header" method="_shield_down"]
 [connection signal="shield_level" from="MainGame" to="AnimationController/Shields" method="_shield_down"]
 [connection signal="time_update" from="MainGame" to="AnimationController/Header" method="_update_time"]

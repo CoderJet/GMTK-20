@@ -24,6 +24,10 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+manager_path = null
+title = null
+description = null
+module = null
 
 [node name="ModuleButton" type="TextureButton" parent="."]
 margin_right = 364.0
