@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://src/SpaceMashGame/SpaceMashGame.gd" type="Script" id=1]
 [ext_resource path="res://src/res/Window/Space/windowbutton_space_continent_northamercia_inactive.png" type="Texture" id=2]
@@ -17,10 +17,16 @@
 [ext_resource path="res://src/res/Window/Space/windowbutton_space_continent_asia_inactive.png" type="Texture" id=15]
 [ext_resource path="res://src/res/Window/Space/windowbutton_space_continent_europe_inactive.png" type="Texture" id=16]
 [ext_resource path="res://src/res/Window/Space/windowbutton_space_continent_southamerica_inactive.png" type="Texture" id=17]
-[ext_resource path="res://src/res/Window/Space/window_space.png" type="Texture" id=18]
+[ext_resource path="res://src/res/Fonts/24/GOTHIC-24.tres" type="DynamicFont" id=18]
 [ext_resource path="res://src/res/Window/Space/window_space_gauge.png" type="Texture" id=19]
 [ext_resource path="res://src/res/Fonts/72/GOTHICI-72.tres" type="DynamicFont" id=20]
 [ext_resource path="res://src/res/Window/Space/window_space_gauge_full.png" type="Texture" id=21]
+[ext_resource path="res://src/res/Window/windowclear.png" type="Texture" id=22]
+[ext_resource path="res://src/res/Fonts/16/GOTHICB16.tres" type="DynamicFont" id=23]
+[ext_resource path="res://src/res/windowbuttonsubmit.png" type="Texture" id=24]
+[ext_resource path="res://src/res/windowbuttoncancel.png" type="Texture" id=25]
+[ext_resource path="res://src/res/windowbuttonsubmitdark.png" type="Texture" id=26]
+[ext_resource path="res://src/res/windowbuttoncancellight.png" type="Texture" id=27]
 
 [sub_resource type="InputEventKey" id=1]
 pressed = true
@@ -38,21 +44,46 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Window" type="TextureRect" parent="."]
+[node name="Window" type="NinePatchRect" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -546.0
-margin_top = -408.0
-margin_right = 546.0
-margin_bottom = 408.0
-rect_scale = Vector2( 0.5, 0.5 )
-rect_pivot_offset = Vector2( 546, 408 )
-texture = ExtResource( 18 )
+margin_left = -364.0
+margin_top = -271.5
+margin_right = 364.0
+margin_bottom = 271.5
+rect_pivot_offset = Vector2( 364, 271 )
+texture = ExtResource( 22 )
+patch_margin_left = 71
+patch_margin_top = 71
+patch_margin_right = 71
+patch_margin_bottom = 45
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="WindowText" type="Label" parent="Window"]
+margin_left = 132.313
+margin_top = 101.047
+margin_right = 1059.31
+margin_bottom = 166.047
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = ExtResource( 18 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "Please select a region to divert planetary defence shield power from.
+Repeatedly press the [Space] bar to divert the shield power to operation levels."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WindowTitle" type="Label" parent="Window"]
+margin_left = 2.92719
+margin_right = 106.927
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 23 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Power Supply"
 
 [node name="Countries" type="HBoxContainer" parent="."]
 anchor_left = 0.5
@@ -60,9 +91,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -474.0
-margin_top = -122.234
+margin_top = -126.806
 margin_right = 474.0
-margin_bottom = -97.2341
+margin_bottom = -101.806
 rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 474, 12 )
 size_flags_horizontal = 0
@@ -194,13 +225,13 @@ __meta__ = {
 
 [node name="ButtonDivertPower" type="TextureButton" parent="."]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -181.501
-margin_top = -293.897
+anchor_bottom = 0.5
+margin_left = -181.5
+margin_top = 122.243
 margin_right = 181.5
-margin_bottom = -222.897
+margin_bottom = 193.243
 rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 181.5, 35 )
 shortcut_in_tooltip = false
@@ -210,6 +241,24 @@ texture_pressed = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ButtonSubmit" type="TextureButton" parent="."]
+margin_left = 424.218
+margin_top = 593.267
+margin_right = 789.218
+margin_bottom = 664.267
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 24 )
+texture_pressed = ExtResource( 26 )
+
+[node name="ButtonCancel" type="TextureButton" parent="."]
+margin_left = 609.313
+margin_top = 591.904
+margin_right = 974.313
+margin_bottom = 662.904
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 27 )
+texture_pressed = ExtResource( 25 )
 [connection signal="toggled" from="Countries/ButtonAfrica" to="." method="_on_ButtonAfrica_toggled"]
 [connection signal="toggled" from="Countries/ButtonAsia" to="." method="_on_ButtonAsia_toggled"]
 [connection signal="toggled" from="Countries/ButtonEurope" to="." method="_on_ButtonEurope_toggled"]
@@ -218,3 +267,5 @@ __meta__ = {
 [connection signal="toggled" from="Countries/ButtonAntartica" to="." method="_on_ButtonAntartica_toggled"]
 [connection signal="toggled" from="Countries/ButtonAustralia" to="." method="_on_ButtonAustralia_toggled"]
 [connection signal="pressed" from="ButtonDivertPower" to="." method="_on_ButtonDivertPower_pressed"]
+[connection signal="pressed" from="ButtonSubmit" to="." method="_on_ButtonSubmit_pressed"]
+[connection signal="pressed" from="ButtonCancel" to="." method="_on_ButtonCancel_pressed"]
