@@ -20,6 +20,8 @@ var word := ""
 
 onready var player_input = get_node("CanvasLayer/PlayerInput")
 
+var current_module = GLOBALS.MODULE.SECURITY
+
 func _ready():
 	randomize()
 	var items = KeywordList.split('\n')
@@ -29,6 +31,10 @@ func _ready():
 	var bbcode_value = BB_CODES[randi() % BB_CODES.size()] % word
 
 	$CanvasLayer/CaptchaText.bbcode_text = "[center]\n\n%s[/center]" % bbcode_value
+
+
+func initiate_minigame(module : int) -> void:
+	current_module = module
 
 
 func _unhandled_key_input(event: InputEventKey) -> void:
@@ -43,6 +49,6 @@ func _unhandled_key_input(event: InputEventKey) -> void:
 func _on_ButtonAuthenticate_pressed() -> void:
 	# Submit the text
 	if player_input.text.to_lower() == word.to_lower():
-		emit_signal("finished", true)
+		emit_signal("finished", true, current_module)
 	else:
-		emit_signal("finished", false)
+		emit_signal("finished", false, current_module)

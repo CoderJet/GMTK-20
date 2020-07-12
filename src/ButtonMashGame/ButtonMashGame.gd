@@ -17,6 +17,7 @@ const EMAIL_PATH = "res://src/ButtonMashGame/Files/Emails/"
 var message := String()
 var key_press_count : int = 0
 var current_file_type = FILE_TYPE.CODE
+var current_module = GLOBALS.MODULE.SOFTWARE_INTEGRITY
 var initiated = false
 
 # Called when the node enters the scene tree for the first time.
@@ -37,24 +38,28 @@ func _unhandled_key_input(event: InputEventKey) -> void:
 			textBox.bbcode_text = message.substr(0, key_press_count);
 
 
-func initiate_minigame(value : int) -> void:
-	current_file_type = value
-
+func initiate_minigame(module : int) -> void:
+	current_module = module
 	var path
-	randomize()
 
-	if current_file_type == FILE_TYPE.CODE:
+	if module == GLOBALS.MODULE.SOFTWARE_INTEGRITY:
+		current_file_type = FILE_TYPE.CODE
 		var result = _dir_contents(CODE_PATH)
 		path = result[randi() % result.size()]
 		_load_file(CODE_PATH + path)
-	elif current_file_type == FILE_TYPE.RECIPE:
-		var result = _dir_contents(RECIPE_PATH)
-		path = result[randi() % result.size()]
-		_load_file(RECIPE_PATH + path)
-	elif current_file_type == FILE_TYPE.EMAIL:
-		var result = _dir_contents(EMAIL_PATH)
-		path = result[randi() % result.size()]
-		_load_file(EMAIL_PATH + path)
+	else:
+		randomize()
+
+		if (randf() > 0.5):
+			current_file_type = FILE_TYPE.RECIPE
+			var result = _dir_contents(RECIPE_PATH)
+			path = result[randi() % result.size()]
+			_load_file(RECIPE_PATH + path)
+		else:
+			current_file_type = FILE_TYPE.EMAIL
+			var result = _dir_contents(EMAIL_PATH)
+			path = result[randi() % result.size()]
+			_load_file(EMAIL_PATH + path)
 	initiated = true
 
 func _dir_contents(path) -> PoolStringArray:
@@ -97,6 +102,6 @@ func _on_TextureButton_pressed() -> void:
 
 	## Check against game's pass criteria
 	if score >= 0.5:
-		emit_signal("finished", true, current_file_type)
+		emit_signal("finished", true, current_module)
 	else:
-		emit_signal("finished", false, current_file_type)
+		emit_signal("finished", false, current_module)

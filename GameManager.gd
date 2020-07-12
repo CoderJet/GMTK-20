@@ -1,12 +1,5 @@
 extends Node2D
 
-enum MODULE {
-	SECURITY = 0,
-	POWER_SUPPLY,
-	SOFTWARE_INTEGRITY,
-	COMMUNICATION
-}
-
 signal time_update
 signal module_update
 signal failure
@@ -23,13 +16,13 @@ export(float) var module_timer = 10
 var currentNode = null
 
 var module_statistics = {
-	MODULE.SECURITY: 1.0,
-	MODULE.POWER_SUPPLY: 1.0,
-	MODULE.SOFTWARE_INTEGRITY: 1.0,
-	MODULE.COMMUNICATION: 1.0,
+	GLOBALS.MODULE.SECURITY: 1.0,
+	GLOBALS.MODULE.POWER_SUPPLY: 1.0,
+	GLOBALS.MODULE.SOFTWARE_INTEGRITY: 1.0,
+	GLOBALS.MODULE.COMMUNICATION: 1.0,
 }
 var offline_modules = []
-var opening_module = MODULE.SECURITY
+#var opening_module = GLOBALS.MODULE.SECURITY
 
 var time_remaining : float = 300
 var shield_level = 4
@@ -47,10 +40,10 @@ func _start() -> void:
 	start = true
 
 func _process(delta: float) -> void:
-	
+
 	if !start:
 		return
-	
+
 	time_remaining -= delta
 	_update_current_time()
 
@@ -84,36 +77,24 @@ func _on_Timer_timeout() -> void:
 
 
 ## PUBLIC FUNCTIONS
-func open_captcha_game(module_caller : int) -> void:
+func open_captcha_game(module : int) -> void:
 	if currentNode == null:
-		opening_module = module_caller
 		currentNode = captchaPackedScene.instance()
+		currentNode.initiate_minigame(module)
 		currentNode.connect("finished", self, "_on_captcha_closed")
 		add_child(currentNode)
 
 
-func open_button_mash_game(module_caller : int, module : int) -> void:
+func open_button_mash_game(module : int) -> void:
 	if currentNode == null:
-		opening_module = module_caller
 		currentNode = buttonPackedScene.instance()
-
-		if module == MODULE.SOFTWARE_INTEGRITY:
-			currentNode.initiate_minigame(currentNode.FILE_TYPE.CODE)
-		else:
-			randomize()
-
-			if randf() <= 0.5:
-				currentNode.initiate_minigame(currentNode.FILE_TYPE.EMAIL)
-			else:
-				currentNode.initiate_minigame(currentNode.FILE_TYPE.RECIPE)
-
+		currentNode.initiate_minigame(module)
 		currentNode.connect("finished", self, "_on_button_mash_closed")
 		add_child(currentNode)
 
 
 func open_space_mash_game(module_caller : int) -> void:
 	if currentNode == null:
-		opening_module = module_caller
 		currentNode = spacePackedScene.instance()
 		currentNode.connect("finished", self, "_on_space_closed")
 		add_child(currentNode)
@@ -121,7 +102,6 @@ func open_space_mash_game(module_caller : int) -> void:
 
 func open_switch_game(module_caller : int) -> void:
 	if currentNode == null:
-		opening_module = module_caller
 		currentNode = switchMiniGame.instance()
 		randomize()
 
@@ -134,16 +114,16 @@ func open_switch_game(module_caller : int) -> void:
 		add_child(currentNode)
 
 
-## MODULE FUNCTIONS
-func _on_captcha_closed(value : bool) -> void:
+## GLOBALS.MODULE FUNCTIONS
+func _on_captcha_closed(value : bool, module : int) -> void:
 	remove_child(currentNode)
 	currentNode = null
 
 	if value:
-		module_statistics[opening_module] += 0.25
+		module_statistics[module] += 0.25
 	else:
-		module_statistics[opening_module] -= 0.35
-	emit_signal("module_update", opening_module, module_statistics[opening_module])
+		module_statistics[module] -= 0.35
+	emit_signal("module_update", module, module_statistics[module])
 
 
 func _on_button_mash_closed(value : bool, module : int) -> void:
@@ -151,10 +131,10 @@ func _on_button_mash_closed(value : bool, module : int) -> void:
 	currentNode = null
 
 	if value:
-		module_statistics[opening_module] += 0.25
+		module_statistics[module] += 0.25
 	else:
-		module_statistics[opening_module] -= 0.35
-	emit_signal("module_update", opening_module, module_statistics[opening_module])
+		module_statistics[module] -= 0.35
+	emit_signal("module_update", module, module_statistics[module])
 
 
 func _on_space_mash_closed(value : bool) -> void:
@@ -162,10 +142,10 @@ func _on_space_mash_closed(value : bool) -> void:
 	currentNode = null
 
 	if value:
-		module_statistics[opening_module] += 0.25
+		module_statistics[GLOBALS.MODULE.POWER_SUPPLY] += 0.25
 	else:
-		module_statistics[opening_module] -= 0.35
-	emit_signal("module_update", opening_module, module_statistics[opening_module])
+		module_statistics[GLOBALS.MODULE.POWER_SUPPLY] -= 0.35
+	emit_signal("module_update", GLOBALS.MODULE.POWER_SUPPLY, module_statistics[GLOBALS.MODULE.POWER_SUPPLY])
 
 
 func _on_switch_closed(value : bool) -> void:
@@ -173,20 +153,20 @@ func _on_switch_closed(value : bool) -> void:
 	currentNode = null
 
 	if value:
-		module_statistics[opening_module] += 0.25
+		module_statistics[GLOBALS.MODULE.COMMUNICATION] += 0.25
 	else:
-		module_statistics[opening_module] -= 0.35
-	emit_signal("module_update", opening_module, module_statistics[opening_module])
+		module_statistics[GLOBALS.MODULE.COMMUNICATION] -= 0.35
+	emit_signal("module_update", GLOBALS.MODULE.COMMUNICATION, module_statistics[GLOBALS.MODULE.COMMUNICATION])
 
 ## HELPER FUNCTIONS
 func _module_to_string(value : int) -> String:
-	if (value == MODULE.SECURITY):
+	if (value == GLOBALS.MODULE.SECURITY):
 		return "Security"
-	elif (value == MODULE.POWER_SUPPLY):
+	elif (value == GLOBALS.MODULE.POWER_SUPPLY):
 		return "Power"
-	elif (value == MODULE.SOFTWARE_INTEGRITY):
+	elif (value == GLOBALS.MODULE.SOFTWARE_INTEGRITY):
 		return "Software"
-	elif (value == MODULE.COMMUNICATION):
+	elif (value == GLOBALS.MODULE.COMMUNICATION):
 		return "Comms"
 	return "UNKNOWN"
 
