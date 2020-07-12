@@ -11,6 +11,7 @@ enum COUNTRY {
 }
 
 signal power_stolen
+signal closed
 
 var current_country = COUNTRY.AFRICA
 var power_level : float = 0.45
@@ -128,7 +129,7 @@ func _on_ButtonDivertPower_pressed() -> void:
 	power_level += value
 	emit_signal("power_stolen", current_country, value)
 
-	var power_whole = power_level * 100
+	var power_whole = int(power_level * 100)
 
 	get_node("PowerLevel").value = power_whole
 	get_node("PowerLevel/PowerPercentage").text = String(power_whole) + "%"

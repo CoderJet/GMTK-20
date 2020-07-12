@@ -116,3 +116,4 @@ texture_pressed = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="pressed" from="CanvasLayer/ButtonAuthenticate" to="." method="_on_ButtonAuthenticate_pressed"]

@@ -12,8 +12,7 @@ const BB_CODES = [
 	'[pulse color=#00FFAA height=0.0 freq=2.0]%s[/pulse]',
 	'[matrix clean=2.0 dirty=1.0 span=50]%s[/matrix]',
 ]
-signal success
-signal failure
+signal finished
 
 export (String, MULTILINE) var KeywordList
 
@@ -34,14 +33,16 @@ func _ready():
 
 func _unhandled_key_input(event: InputEventKey) -> void:
 	if event.pressed:
-		if event.scancode ==  KEY_ENTER:
-			# Submit the text
-			if player_input.text.to_lower() == word.to_lower():
-				emit_signal("success", 1)
-			else:
-				emit_signal("failure", 1)
-		elif event.scancode ==  KEY_BACKSPACE:
+		if event.scancode ==  KEY_BACKSPACE:
 			player_input.text = player_input.text.substr(0, player_input.text.length() - 1)
 		else:
 			if player_input.text.length() < word.length():
 				player_input.text += PoolByteArray([event.unicode]).get_string_from_utf8()
+
+
+func _on_ButtonAuthenticate_pressed() -> void:
+	# Submit the text
+	if player_input.text.to_lower() == word.to_lower():
+		emit_signal("finished", true)
+	else:
+		emit_signal("finished", false)
