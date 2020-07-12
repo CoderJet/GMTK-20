@@ -8,12 +8,12 @@ enum CALL_TYPE {
 
 signal finished
 
-onready var slider = get_node("SlideBackground/SliderPickup")
-onready var slider_anim = get_node("SlideBackground/AnimationPlayer")
+onready var slider = $SlideBackground/SliderPickup
+onready var slider_anim = $SlideBackground/AnimationPlayer
 
-onready var female_avatar = get_node("Node/FemalePortrait")
-onready var male_avatar = get_node("Node/MalePortrait")
-onready var contact_name = get_node("Node/ContactName")
+onready var female_avatar = $Avatars/FemalePortrait
+onready var male_avatar = $Avatars/MalePortrait
+onready var contact_name = $Avatars/ContactName
 
 export (String, MULTILINE) var PersonalFemales
 export (String, MULTILINE) var PersonalMales
@@ -29,8 +29,7 @@ var current_call_type = CALL_TYPE.PERSONAL
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	male_avatar.visible = false
-	male_avatar.visible = false
+	pass
 
 
 func initiate_minigame(value : int) -> void:
@@ -38,23 +37,23 @@ func initiate_minigame(value : int) -> void:
 	randomize()
 
 	if current_call_type == CALL_TYPE.PERSONAL:
-		if randf() > 1.25:
+		if randf() > 0.25:
 			var items = PersonalFemales.split('\n')
-			contact_name.text = items[randi() % items.size()].strip_edges()
-			female_avatar.visible = true
+			$Avatars/ContactName.text = items[randi() % items.size()].strip_edges()
+			$Avatars/FemalePortrait.visible = true
 		else:
 			var items = PersonalMales.split('\n')
-			contact_name.text = items[randi() % items.size()].strip_edges()
-			male_avatar.visible = true
+			$Avatars/ContactName.text = items[randi() % items.size()].strip_edges()
+			$Avatars/MalePortrait.visible = true
 	else:
 		if randf() > 0.5:
 			var items = WorkFemales.split('\n')
-			contact_name.text = items[randi() % items.size()].strip_edges()
-			female_avatar.visible = true
+			$Avatars/ContactName.text = items[randi() % items.size()].strip_edges()
+			$Avatars/FemalePortrait.visible = true
 		else:
 			var items = WorkMales.split('\n')
-			contact_name.text = items[randi() % items.size()].strip_edges()
-			male_avatar.visible = true
+			$Avatars/ContactName.text = items[randi() % items.size()].strip_edges()
+			$Avatars/MalePortrait.visible = true
 
 
 func _process(delta: float) -> void:

@@ -114,6 +114,13 @@ func open_space_mash_game(module : int) -> void:
 func open_switch_game() -> void:
 	if currentNode == null:
 		currentNode = switchMiniGame.instance()
+		randomize()
+
+		if randf() > 0.25:
+			currentNode.initiate_minigame(currentNode.CALL_TYPE.WORK)
+		else:
+			currentNode.initiate_minigame(currentNode.CALL_TYPE.PERSONAL)
+
 		currentNode.connect("finished", self, "_on_switch_closed")
 		add_child(currentNode)
 
