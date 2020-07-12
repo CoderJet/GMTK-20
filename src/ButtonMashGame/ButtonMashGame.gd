@@ -22,8 +22,6 @@ var initiated = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
-	#_load_file(temp)
-	#initiate_minigame(FILE_TYPE.CODE)
 
 
 func _unhandled_key_input(event: InputEventKey) -> void:
