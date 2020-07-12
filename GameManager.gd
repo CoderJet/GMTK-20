@@ -11,11 +11,14 @@ signal time_update
 signal module_update
 signal failure
 signal survived
+signal shield_level
 
 onready var captchaPackedScene = preload("res://src/CaptchaGame/CaptchaGame.tscn")
 onready var buttonPackedScene = preload("res://src/ButtonMashGame/ButtonMashGame.tscn")
 onready var spacePackedScene = preload("res://src/SpaceMashGame/SpaceMashGame.tscn")
 onready var switchMiniGame = preload("res://src/SwitchMiniGame/SwitchMiniGame.tscn")
+
+export(float) var module_timer = 10
 
 var currentNode = null
 
@@ -26,18 +29,28 @@ var module_statistics = {
 	MODULE.COMMUNICATION: 1.0,
 }
 var offline_modules = []
+var opening_module = MODULE.SECURITY
 
 var time_remaining : float = 300
-var shield_level = 3
+var shield_level = 4
+var start = false
 
 export var ModuleReductionRange : Vector2 = Vector2(0.0025, 0.09)
 
 ## MAIN FUNCTIONS
 func _ready() -> void:
-	$Timer.start();
+	pass
 
+func _start() -> void:
+	$Timer.wait_time = module_timer
+	$Timer.start();
+	start = true
 
 func _process(delta: float) -> void:
+	
+	if !start:
+		return
+	
 	time_remaining -= delta
 	_update_current_time()
 
@@ -45,17 +58,6 @@ func _process(delta: float) -> void:
 		$Timer.stop()
 		emit_signal("survived")
 
-
-
-func _unhandled_key_input(event: InputEventKey) -> void:
-	if event.scancode == KEY_1 and event.pressed:
-		open_button_mash_game(MODULE.SOFTWARE_INTEGRITY)
-	elif event.scancode == KEY_2 and event.pressed:
-		open_button_mash_game(MODULE.COMMUNICATION)
-	elif event.scancode == KEY_3 and event.pressed:
-		open_captcha_game()
-	elif event.scancode == KEY_4 and event.pressed:
-		open_switch_game()
 
 ## CONTROL FUNCTIONS
 func _on_Timer_timeout() -> void:
@@ -73,21 +75,26 @@ func _on_Timer_timeout() -> void:
 				offline_modules.append(key)
 				if shield_level == 0:
 					emit_signal("failure")
+				else:
+					emit_signal("shield_level", shield_level)
+				emit_signal("module_update", key, 0)
 			else:
-				emit_signal("module_update", module_statistics[key])
+				emit_signal("module_update", key, module_statistics[key])
 			print_debug("%s - %1.3f" % [_module_to_string(key), module_statistics[key]])
 
 
 ## PUBLIC FUNCTIONS
-func open_captcha_game() -> void:
+func open_captcha_game(module_caller : int) -> void:
 	if currentNode == null:
+		opening_module = module_caller
 		currentNode = captchaPackedScene.instance()
 		currentNode.connect("finished", self, "_on_captcha_closed")
 		add_child(currentNode)
 
 
-func open_button_mash_game(module : int) -> void:
+func open_button_mash_game(module_caller : int, module : int) -> void:
 	if currentNode == null:
+		opening_module = module_caller
 		currentNode = buttonPackedScene.instance()
 
 		if module == MODULE.SOFTWARE_INTEGRITY:
@@ -100,19 +107,21 @@ func open_button_mash_game(module : int) -> void:
 			else:
 				currentNode.initiate_minigame(currentNode.FILE_TYPE.RECIPE)
 
-		currentNode.connect("finished", self, "_on_button_closed")
+		currentNode.connect("finished", self, "_on_button_mash_closed")
 		add_child(currentNode)
 
 
-func open_space_mash_game(module : int) -> void:
+func open_space_mash_game(module_caller : int) -> void:
 	if currentNode == null:
-		currentNode = buttonPackedScene.instance()
+		opening_module = module_caller
+		currentNode = spacePackedScene.instance()
 		currentNode.connect("finished", self, "_on_space_closed")
 		add_child(currentNode)
 
 
-func open_switch_game() -> void:
+func open_switch_game(module_caller : int) -> void:
 	if currentNode == null:
+		opening_module = module_caller
 		currentNode = switchMiniGame.instance()
 		currentNode.connect("finished", self, "_on_switch_closed")
 		add_child(currentNode)
@@ -124,10 +133,10 @@ func _on_captcha_closed(value : bool) -> void:
 	currentNode = null
 
 	if value:
-		module_statistics[MODULE.SECURITY] += 0.25
+		module_statistics[opening_module] += 0.25
 	else:
-		module_statistics[MODULE.SECURITY] -= 0.35
-	emit_signal("module_update", module_statistics[MODULE.SECURITY])
+		module_statistics[opening_module] -= 0.35
+	emit_signal("module_update", opening_module, module_statistics[opening_module])
 
 
 func _on_button_mash_closed(value : bool, module : int) -> void:
@@ -135,10 +144,10 @@ func _on_button_mash_closed(value : bool, module : int) -> void:
 	currentNode = null
 
 	if value:
-		module_statistics[module] += 0.25
+		module_statistics[opening_module] += 0.25
 	else:
-		module_statistics[module] -= 0.35
-	emit_signal("module_update", module_statistics[module])
+		module_statistics[opening_module] -= 0.35
+	emit_signal("module_update", opening_module, module_statistics[opening_module])
 
 
 func _on_space_mash_closed(value : bool) -> void:
@@ -146,10 +155,10 @@ func _on_space_mash_closed(value : bool) -> void:
 	currentNode = null
 
 	if value:
-		module_statistics[MODULE.POWER_SUPPLY] += 0.25
+		module_statistics[opening_module] += 0.25
 	else:
-		module_statistics[MODULE.POWER_SUPPLY] -= 0.35
-	emit_signal("module_update", module_statistics[MODULE.POWER_SUPPLY])
+		module_statistics[opening_module] -= 0.35
+	emit_signal("module_update", opening_module, module_statistics[opening_module])
 
 
 func _on_switch_closed(value : bool) -> void:
@@ -157,10 +166,10 @@ func _on_switch_closed(value : bool) -> void:
 	currentNode = null
 
 	if value:
-		module_statistics[MODULE.COMMUNICATION] += 0.25
+		module_statistics[opening_module] += 0.25
 	else:
-		module_statistics[MODULE.COMMUNICATION] -= 0.35
-	emit_signal("module_update", module_statistics[MODULE.COMMUNICATION])
+		module_statistics[opening_module] -= 0.35
+	emit_signal("module_update", opening_module, module_statistics[opening_module])
 
 ## HELPER FUNCTIONS
 func _module_to_string(value : int) -> String:
@@ -186,3 +195,7 @@ func _update_current_time() -> void:
 	if b.size() == 2:
 		mSecs = int(b[1])
 	emit_signal("time_update", "%02d:%02d:%03d" % [mins, secs, mSecs])
+
+
+func _on_AnimationController_animation_ended():
+	_start()

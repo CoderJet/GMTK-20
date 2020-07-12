@@ -29,7 +29,7 @@ func _unhandled_key_input(event: InputEventKey) -> void:
 		return
 
 	if event.is_pressed() and _is_letter(event.unicode):
-		key_press_count += 3 # Have to play around with this value
+		key_press_count += 10 # Have to play around with this value
 
 		if current_file_type == FILE_TYPE.CODE:
 			textBox.bbcode_text = "[code]" + message.substr(0, key_press_count) + "[/code]";

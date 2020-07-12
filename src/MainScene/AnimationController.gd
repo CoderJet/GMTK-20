@@ -20,6 +20,9 @@ enum STATE {
 	HEADER
 }
 
+export(StreamTexture) var abort
+export(StreamTexture) var abort_down
+
 var state = STATE.WELCOME_IMAGE
 var current_time = 0
 var cooldown_time = 1
@@ -38,7 +41,9 @@ var animate = true
 var module_count = 1
 var module_fade_in = 0.5
 
+export var header_fill_time = 4
 var header_time = 0
+var time_milliseconds_full = 5 * 60
 
 var module_map = {}
 
@@ -57,7 +62,7 @@ func _begin_game_animation():
 func _process(delta):
 
 	if not animate:
-		pass
+		return
 
 	if current_time < cooldown_time:
 		current_time += delta
@@ -77,7 +82,9 @@ func _process(delta):
 			footer._start_animation()
 			pass
 		STATE.EMERGENCY:
-			button.visible = false
+			#button.visible = false
+			button.texture_normal = abort
+			button.texture_pressed = abort_down
 			
 			welcome.modulate.a -= delta
 			if welcome.modulate.a <= 0:
@@ -135,14 +142,28 @@ func _process(delta):
 			
 			pass
 		STATE.HEADER:
-			header.get_node("Header_full").modulate.a += delta
-			header.get_node("Header").modulate.a += delta
-			if header.get_node("Header_full").modulate.a >= 1:
-				header.get_node("Header_full").modulate.a = 1
+			header.modulate.a += delta
+			header.modulate.a += delta
+			if header.modulate.a >= 1:
+				header.modulate.a = 1
 				
+				header_time += (delta * 1/header_fill_time * time_milliseconds_full)
+				if header_time > 300:
+					header_time = 300
 				
+				var mins = int(header_time / 60)
+				var secs = int(header_time) % 60
+				var mSecs = 0
+			
+				var a = stepify(float(header_time), 0.001)
+				var b = String(a).split('.')
+			
+				if b.size() == 2:
+					mSecs = int(b[1])
 				
-				header.get_node("Header_full").value += delta * 25
+				header.get_node("RemainingTime").text = "%02d:%02d:%03d" % [mins, secs, mSecs]
+				
+				header.get_node("Header_full").value += delta * 1/header_fill_time * 100
 				if header.get_node("Header_full").value >= 100:
 					emit_signal("animation_ended")
 					animate = false
