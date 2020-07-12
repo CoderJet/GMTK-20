@@ -2,6 +2,12 @@ extends Control
 
 signal animation_ended
 
+export(NodePath) var background_path
+onready var background = get_node(background_path)
+
+export(NodePath) var rat_path
+onready var rat = get_node(rat_path)
+
 onready var welcome = $Welcome/WelcomeImage
 onready var header = $Header
 onready var footer = $Footer
@@ -9,6 +15,12 @@ onready var button = $"Footer/WHOOPS Footer/WHOOPS Button"
 onready var world = $Worlds
 onready var shields = $Shields
 onready var modules = $Modules
+
+enum ANIM_STATE {
+	BEGIN,
+	FAIL,
+	WIN
+}
 
 enum STATE {
 	WELCOME_IMAGE = 0,
@@ -20,9 +32,25 @@ enum STATE {
 	HEADER
 }
 
+enum STATE_FAIL {
+	CRACKED_EARTH,
+	FADE_HUD,
+	BLACK_FADEOUT,
+	RAT,
+	REPLAY
+}
+
+enum STATE_WIN {
+	
+}
+
 export(StreamTexture) var abort
 export(StreamTexture) var abort_down
 
+export(StreamTexture) var reboot
+export(StreamTexture) var reboot_down
+
+var anim_state = ANIM_STATE.BEGIN
 var state = STATE.WELCOME_IMAGE
 var current_time = 0
 var cooldown_time = 1
@@ -41,6 +69,8 @@ var animate = true
 var module_count = 1
 var module_fade_in = 0.5
 
+var rat_fade = 3
+
 export var header_fill_time = 4
 var header_time = 0
 var time_milliseconds_full = 5 * 60
@@ -57,18 +87,23 @@ func _ready():
 	pass # Replace with function body.
 
 func _begin_game_animation():
-	state = STATE.EMERGENCY
+	if anim_state == ANIM_STATE.BEGIN:
+		state = STATE.EMERGENCY
+	elif anim_state == ANIM_STATE.FAIL:
+		_fail_continue()
 
-func _process(delta):
+func _begin_fail_animation():
+	animate = true
+	anim_state = ANIM_STATE.FAIL
+	state = STATE_FAIL.CRACKED_EARTH
+	cooldown_time = 0.2
 
-	if not animate:
-		return
+func _begin_win_animation():
+	animate = true
+	anim_state = ANIM_STATE.WIN
+	cooldown_time = 0.2
 
-	if current_time < cooldown_time:
-		current_time += delta
-		return
-	else:
-		cooldown_time = current_time
+func _begin(delta):
 	
 	match state:
 		STATE.WELCOME_IMAGE:
@@ -169,5 +204,68 @@ func _process(delta):
 					animate = false
 			
 			pass	
+
+func _fail_continue():
+	state = STATE_FAIL.BLACK_FADEOUT
+
+func _fail(delta):
+	match state:
+		STATE_FAIL.CRACKED_EARTH:
+			world.get_node("WorldNormal").visible = false
+			world.get_node("WorldBroken").visible = true
+			cooldown_time = 0.3
+			state = STATE_FAIL.FADE_HUD
+			pass
+		STATE_FAIL.FADE_HUD:
+			header.visible = false
+			shields.visible = false
+			modules.visible = false
+			welcome.visible = false
+			
+			button.texture_normal = reboot
+			button.texture_pressed = reboot_down
+			pass
+		STATE_FAIL.BLACK_FADEOUT:
+			background.modulate.a -= delta * 0.1
+			modulate.a -= delta * 0.1
+			
+			if modulate.a <= 0:
+				if rat_fade <= 0:
+					rat.visible = false
+					state = STATE_FAIL.REPLAY
+				else:
+					rat_fade -= delta
+				
+			pass
+		STATE_FAIL.REPLAY:
+			get_tree().reload_current_scene()
+			
+			pass
+	pass
+	
+func _win(delta):
+	pass
+	
+func _process(delta):
+
+	if not animate:
+		return
+
+	if current_time < cooldown_time:
+		current_time += delta
+		return
+	else:
+		cooldown_time = current_time
+		
+	match anim_state:
+		ANIM_STATE.BEGIN:
+			_begin(delta)
+			pass
+		ANIM_STATE.FAIL:
+			_fail(delta)
+			pass
+		ANIM_STATE.WIN:
+			_win(delta)
+			pass
 	
 	pass

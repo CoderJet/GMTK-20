@@ -55,6 +55,10 @@ func _process(delta: float) -> void:
 ## CONTROL FUNCTIONS
 func _on_Timer_timeout() -> void:
 	# TODO : Slow down ticks or lower value impact while in minigame.
+	randomize()
+	
+	$Timer.wait_time = max($Timer.wait_time - randf() / 5, 0.5)
+	
 	for key in module_statistics:
 		if key in offline_modules:
 			continue
