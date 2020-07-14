@@ -108,7 +108,7 @@ func _begin_win_animation():
 	cooldown_time = 0.2
 
 func _begin(delta):
-	
+
 	match state:
 		STATE.WELCOME_IMAGE:
 			#welcome.visible = true
@@ -124,11 +124,11 @@ func _begin(delta):
 			#button.visible = false
 			button.texture_normal = abort
 			button.texture_pressed = abort_down
-			
+
 			welcome.modulate.a -= delta
 			if welcome.modulate.a <= 0:
 				welcome.modulate.a = 0
-				
+
 				if flash_count < 6:
 					if flash_time <= 0:
 						world.get_node("EmergencyWarning").visible = flash_state
@@ -145,10 +145,10 @@ func _begin(delta):
 			world.get_node("WorldNormal").modulate.a += delta/2
 			if world.get_node("WorldNormal").modulate.a > 1:
 				world.get_node("WorldNormal").modulate.a = 1
-				
+
 				state += 1
 				cooldown_time += 0.2
-			
+
 			pass
 		STATE.SHIELDS:
 			if shield_count > 3:
@@ -163,11 +163,11 @@ func _begin(delta):
 						shields.get_node("Shield2").visible = true
 					elif shield_count == 3:
 						shields.get_node("Shield3").visible = true
-					
+
 					shield_count += 1
 				else:
 					shield_time -= delta
-			
+
 			pass
 		STATE.MODULES:
 			if module_count > 4:
@@ -178,30 +178,30 @@ func _begin(delta):
 				if module_map[module_count].modulate.a >= 1:
 					module_map[module_count].modulate.a = 1
 					module_count += 1
-			
+
 			pass
 		STATE.HEADER:
 			header.modulate.a += delta
 			header.modulate.a += delta
 			if header.modulate.a >= 1:
 				header.modulate.a = 1
-				
+
 				header_time += (delta * 1/header_fill_time * time_milliseconds_full)
 				if header_time > 300:
 					header_time = 300
-				
+
 				var mins = int(header_time / 60)
 				var secs = int(header_time) % 60
 				var mSecs = 0
-			
+
 				var a = stepify(float(header_time), 0.001)
 				var b = String(a).split('.')
-			
+
 				if b.size() == 2:
 					mSecs = int(b[1])
-				
+
 				header.get_node("RemainingTime").text = "%02d:%02d:%03d" % [mins, secs, mSecs]
-				
+
 				header.get_node("Header_full").value += delta * 1/header_fill_time * 100
 				if header.get_node("Header_full").value >= 100:
 					header_game_start -= delta
@@ -227,31 +227,31 @@ func _fail(delta):
 			shields.visible = false
 			modules.visible = false
 			welcome.visible = false
-			
+
 			button.texture_normal = reboot
 			button.texture_pressed = reboot_down
 			pass
 		STATE_FAIL.BLACK_FADEOUT:
 			background.modulate.a -= delta * 0.1
 			modulate.a -= delta * 0.1
-			
+
 			if modulate.a <= 0:
 				if rat_fade <= 0:
 					rat.visible = false
 					state = STATE_FAIL.REPLAY
 				else:
 					rat_fade -= delta
-				
+
 			pass
 		STATE_FAIL.REPLAY:
 			get_tree().reload_current_scene()
-			
+
 			pass
 	pass
-	
+
 func _win(delta):
 	pass
-	
+
 func _process(delta):
 
 	if not animate:
@@ -262,7 +262,7 @@ func _process(delta):
 		return
 	else:
 		cooldown_time = current_time
-		
+
 	match anim_state:
 		ANIM_STATE.BEGIN:
 			_begin(delta)
@@ -273,5 +273,5 @@ func _process(delta):
 		ANIM_STATE.WIN:
 			_win(delta)
 			pass
-	
+
 	pass

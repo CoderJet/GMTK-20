@@ -106,7 +106,8 @@ func open_button_mash_game(module : int) -> void:
 func open_space_mash_game(module_caller : int) -> void:
 	if currentNode == null:
 		currentNode = spacePackedScene.instance()
-		currentNode.connect("finished", self, "_on_space_closed")
+		currentNode.initiate_minigame(module_statistics[GLOBALS.MODULE.POWER_SUPPLY])
+		currentNode.connect("finished", self, "_on_space_mash_closed")
 		add_child(currentNode)
 
 
@@ -147,12 +148,12 @@ func _on_button_mash_closed(value : bool, module : int) -> void:
 	emit_signal("module_update", module, module_statistics[module])
 
 
-func _on_space_mash_closed(value : bool) -> void:
+func _on_space_mash_closed(value : bool, power : float) -> void:
 	remove_child(currentNode)
 	currentNode = null
 
 	if value:
-		module_statistics[GLOBALS.MODULE.POWER_SUPPLY] += 0.25
+		module_statistics[GLOBALS.MODULE.POWER_SUPPLY] = power
 	else:
 		module_statistics[GLOBALS.MODULE.POWER_SUPPLY] -= 0.35
 	emit_signal("module_update", GLOBALS.MODULE.POWER_SUPPLY, module_statistics[GLOBALS.MODULE.POWER_SUPPLY])

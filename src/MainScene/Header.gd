@@ -21,7 +21,7 @@ func _process(delta):
 			header_progress_bar.value = target_val
 			animate = false
 		pass
-		
+
 	pass
 
 func _update_time(time_str):

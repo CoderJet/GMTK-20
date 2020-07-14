@@ -22,6 +22,15 @@ func _ready() -> void:
 	pass
 
 
+func initiate_minigame(value : float) -> void:
+	power_level = value
+
+	var power_whole = int(power_level * 100)
+
+	get_node("PowerLevel").value = power_whole
+	get_node("PowerLevel/PowerPercentage").text = String(power_whole) + "%"
+
+
 func _on_ButtonAfrica_toggled(button_pressed: bool) -> void:
 	current_country = COUNTRY.AFRICA
 
@@ -133,3 +142,11 @@ func _on_ButtonDivertPower_pressed() -> void:
 
 	get_node("PowerLevel").value = power_whole
 	get_node("PowerLevel/PowerPercentage").text = String(power_whole) + "%"
+
+
+func _on_ButtonSubmit_pressed() -> void:
+	emit_signal("finished", true, power_level)
+
+
+func _on_ButtonCancel_pressed() -> void:
+	emit_signal("finished", false, 0)
