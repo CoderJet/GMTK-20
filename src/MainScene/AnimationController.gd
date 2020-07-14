@@ -41,7 +41,9 @@ enum STATE_FAIL {
 }
 
 enum STATE_WIN {
-	
+	FADE_DOWN,
+	FADE_TEXT,
+	RESTART
 }
 
 export(StreamTexture) var abort
@@ -74,6 +76,8 @@ var rat_fade = 3
 export var header_fill_time = 4
 var header_time = 0
 var time_milliseconds_full = 5 * 60
+
+var header_game_start = 5
 
 var module_map = {}
 
@@ -200,8 +204,10 @@ func _begin(delta):
 				
 				header.get_node("Header_full").value += delta * 1/header_fill_time * 100
 				if header.get_node("Header_full").value >= 100:
-					emit_signal("animation_ended")
-					animate = false
+					header_game_start -= delta
+					if header_game_start <= 0:
+						emit_signal("animation_ended")
+						animate = false
 			
 			pass	
 

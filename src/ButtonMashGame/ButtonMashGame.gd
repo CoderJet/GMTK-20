@@ -38,13 +38,13 @@ func _unhandled_key_input(event: InputEventKey) -> void:
 			textBox.bbcode_text = message.substr(0, key_press_count);
 
 
-func initiate_minigame(module : int) -> void:
+func initiate_minigame(module : int, difficulty : int) -> void:
 	current_module = module
 	var path
 
 	if module == GLOBALS.MODULE.SOFTWARE_INTEGRITY:
 		current_file_type = FILE_TYPE.CODE
-		var result = _dir_contents(CODE_PATH)
+		var result = _dir_contents(CODE_PATH + str(difficulty) + "/")
 		path = result[randi() % result.size()]
 		_load_file(CODE_PATH + path)
 	else:
@@ -52,12 +52,12 @@ func initiate_minigame(module : int) -> void:
 
 		if (randf() > 0.5):
 			current_file_type = FILE_TYPE.RECIPE
-			var result = _dir_contents(RECIPE_PATH)
+			var result = _dir_contents(RECIPE_PATH + str(difficulty) + "/")
 			path = result[randi() % result.size()]
 			_load_file(RECIPE_PATH + path)
 		else:
 			current_file_type = FILE_TYPE.EMAIL
-			var result = _dir_contents(EMAIL_PATH)
+			var result = _dir_contents(EMAIL_PATH + str(difficulty) + "/")
 			path = result[randi() % result.size()]
 			_load_file(EMAIL_PATH + path)
 	initiated = true
