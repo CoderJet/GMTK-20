@@ -24,6 +24,9 @@ func _ready() -> void:
 
 func initiate_minigame(value : float) -> void:
 	power_level = value
+	
+	get_node("ButtonDivertPower").grab_focus()
+	get_node("ButtonSubmit").disabled = true
 
 	var power_whole = int(power_level * 100)
 
@@ -143,6 +146,8 @@ func _on_ButtonDivertPower_pressed() -> void:
 	get_node("PowerLevel").value = power_whole
 	get_node("PowerLevel/PowerPercentage").text = String(power_whole) + "%"
 
+	if power_whole >= 75:
+		get_node("ButtonSubmit").disabled = false
 
 func _on_ButtonSubmit_pressed() -> void:
 	emit_signal("finished", true, power_level)

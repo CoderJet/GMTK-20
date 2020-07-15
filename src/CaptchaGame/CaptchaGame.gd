@@ -33,7 +33,7 @@ func _ready():
 	$CanvasLayer/CaptchaText.bbcode_text = "[center]\n\n%s[/center]" % bbcode_value
 
 
-func initiate_minigame(module : int) -> void:
+func initiate_minigame(module : int, difficulty : int) -> void:
 	current_module = module
 
 
