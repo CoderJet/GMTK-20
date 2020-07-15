@@ -56,7 +56,7 @@ func _process(delta: float) -> void:
 func _on_Timer_timeout() -> void:
 	# TODO : Slow down ticks or lower value impact while in minigame.
 	randomize()
-	
+
 	$Timer.wait_time = max(time_remaining/60.0, 0.5)
 
 	for key in module_statistics:
@@ -84,7 +84,7 @@ func _on_Timer_timeout() -> void:
 func open_captcha_game(module : int) -> void:
 	if currentNode == null:
 		var difficulty = max((5 - int(time_remaining/60)) + 1, 3)
-		
+
 		currentNode = captchaPackedScene.instance()
 		currentNode.initiate_minigame(module, difficulty)
 		currentNode.connect("finished", self, "_on_captcha_closed")
@@ -96,7 +96,7 @@ func open_button_mash_game(module : int) -> void:
 		var difficulty = (5 - int(time_remaining/60)) + 1
 		if difficulty > 3:
 			difficulty = 3
-			
+
 		currentNode = buttonPackedScene.instance()
 		currentNode.initiate_minigame(module, difficulty)
 		currentNode.connect("finished", self, "_on_button_mash_closed")

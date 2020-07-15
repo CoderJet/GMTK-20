@@ -208,8 +208,8 @@ func _begin(delta):
 					if header_game_start <= 0:
 						emit_signal("animation_ended")
 						animate = false
-			
-			pass	
+
+			pass
 
 func _fail_continue():
 	state = STATE_FAIL.BLACK_FADEOUT

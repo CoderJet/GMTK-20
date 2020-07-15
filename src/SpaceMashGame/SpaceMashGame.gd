@@ -24,7 +24,7 @@ func _ready() -> void:
 
 func initiate_minigame(value : float) -> void:
 	power_level = value
-	
+
 	get_node("ButtonDivertPower").grab_focus()
 	get_node("ButtonSubmit").disabled = true
 
