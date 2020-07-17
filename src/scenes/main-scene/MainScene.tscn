@@ -1,0 +1,714 @@
+[gd_scene load_steps=54 format=2]
+
+[ext_resource path="res://assets/textures/Foreground/console_mask.png" type="Texture" id=1]
+[ext_resource path="res://assets/textures/Background/grid.png" type="Texture" id=2]
+[ext_resource path="res://assets/textures/Background/glow.png" type="Texture" id=3]
+[ext_resource path="res://assets/textures/Foreground/progress_BG_full_crop.png" type="Texture" id=4]
+[ext_resource path="res://assets/textures/Foreground/console_WHOOPS.png" type="Texture" id=5]
+[ext_resource path="res://src/scripts/main-scene/Footer.gd" type="Script" id=6]
+[ext_resource path="res://assets/textures/Globe/emergency.png" type="Texture" id=7]
+[ext_resource path="res://assets/textures/Globe/planetshield03.png" type="Texture" id=8]
+[ext_resource path="res://assets/textures/Background/Background.png" type="Texture" id=9]
+[ext_resource path="res://assets/textures/Globe/planet01.png" type="Texture" id=10]
+[ext_resource path="res://assets/textures/Globe/planetemergency.png" type="Texture" id=11]
+[ext_resource path="res://assets/textures/Globe/planet02.png" type="Texture" id=12]
+[ext_resource path="res://assets/textures/Globe/planetshield01.png" type="Texture" id=13]
+[ext_resource path="res://assets/textures/Globe/planetshield02.png" type="Texture" id=14]
+[ext_resource path="res://assets/textures/Foreground/console_mask_button_begin.png" type="Texture" id=15]
+[ext_resource path="res://assets/textures/Welcome/whoopslogo.png" type="Texture" id=16]
+[ext_resource path="res://src/scripts/main-scene/AnimationController.gd" type="Script" id=17]
+[ext_resource path="res://assets/textures/Foreground/console_mask_button_begin_down.png" type="Texture" id=18]
+[ext_resource path="res://assets/textures/Foreground/progress_BG_crop.png" type="Texture" id=19]
+[ext_resource path="res://assets/textures/modules/modulehitbox_hover.png" type="Texture" id=20]
+[ext_resource path="res://assets/textures/Foreground/console_mask_button_abort.png" type="Texture" id=21]
+[ext_resource path="res://assets/fonts/16/GOTHIC16.tres" type="DynamicFont" id=22]
+[ext_resource path="res://assets/textures/modules/module_progress_bar.png" type="Texture" id=23]
+[ext_resource path="res://assets/textures/modules/module_progress_bar_full.png" type="Texture" id=24]
+[ext_resource path="res://src/scripts/main-scene/Header.gd" type="Script" id=25]
+[ext_resource path="res://assets/textures/Foreground/progress_BG_timer.png" type="Texture" id=26]
+[ext_resource path="res://assets/fonts/36/GOTHIC-36.tres" type="DynamicFont" id=27]
+[ext_resource path="res://src/scripts/modules/Module.gd" type="Script" id=28]
+[ext_resource path="res://assets/fonts/24/GOTHIC-24.tres" type="DynamicFont" id=29]
+[ext_resource path="res://assets/textures/Foreground/console_mask_button_abort_down.png" type="Texture" id=30]
+[ext_resource path="res://assets/textures/modules/modulehitbox.png" type="Texture" id=31]
+[ext_resource path="res://src/scenes/GameManager.tscn" type="PackedScene" id=32]
+[ext_resource path="res://assets/textures/Foreground/progress_BG_line.png" type="Texture" id=33]
+[ext_resource path="res://src/scripts/main-scene/Shields.gd" type="Script" id=34]
+[ext_resource path="res://assets/textures/graphic_failstate_rat.png" type="Texture" id=35]
+[ext_resource path="res://assets/textures/Foreground/console_mask_button_reboot.png" type="Texture" id=36]
+[ext_resource path="res://assets/textures/Foreground/console_mask_button_reboot_down.png" type="Texture" id=37]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 1204, 677 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 1920, 1080 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 1920, 1080 )
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 26 )
+region_rect = Rect2( 0, 0, 340, 73 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 33 )
+region_rect = Rect2( 0, 0, 1554, 5 )
+
+[sub_resource type="StyleBoxTexture" id=8]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 1867, 72 )
+
+[sub_resource type="StyleBoxTexture" id=9]
+texture = ExtResource( 5 )
+region_rect = Rect2( 0, 0, 1867, 72 )
+
+[sub_resource type="StyleBoxTexture" id=10]
+texture = ExtResource( 7 )
+region_rect = Rect2( 0, 0, 728, 729 )
+
+[sub_resource type="StyleBoxTexture" id=11]
+texture = ExtResource( 11 )
+region_rect = Rect2( 0, 0, 728, 729 )
+
+[sub_resource type="StyleBoxTexture" id=12]
+texture = ExtResource( 10 )
+region_rect = Rect2( 0, 0, 728, 729 )
+
+[sub_resource type="StyleBoxTexture" id=13]
+texture = ExtResource( 12 )
+region_rect = Rect2( 0, 0, 728, 729 )
+
+[sub_resource type="StyleBoxTexture" id=14]
+texture = ExtResource( 13 )
+region_rect = Rect2( 0, 0, 728, 729 )
+
+[sub_resource type="StyleBoxTexture" id=15]
+texture = ExtResource( 14 )
+region_rect = Rect2( 0, 0, 728, 729 )
+
+[sub_resource type="StyleBoxTexture" id=16]
+texture = ExtResource( 8 )
+region_rect = Rect2( 0, 0, 728, 729 )
+
+[sub_resource type="GDScript" id=19]
+script/source = "extends Control
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="StyleBoxTexture" id=20]
+texture = ExtResource( 16 )
+region_rect = Rect2( 0, 0, 1282, 845 )
+
+[node name="GameRoot" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -640.0
+margin_top = -360.0
+margin_right = 640.0
+margin_bottom = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="graphic_failstate_rat" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.498039 )
+position = Vector2( 612.346, 532 )
+scale = Vector2( 0.66, 0.66 )
+texture = ExtResource( 35 )
+
+[node name="Background" type="Panel" parent="."]
+modulate = Color( 0.352941, 0.352941, 0.352941, 1 )
+margin_right = 1280.0
+margin_bottom = 720.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationController" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+background_path = NodePath("../Background")
+rat_path = NodePath("../graphic_failstate_rat")
+abort = ExtResource( 21 )
+abort_down = ExtResource( 30 )
+reboot = ExtResource( 36 )
+reboot_down = ExtResource( 37 )
+
+[node name="UI_Background" type="Control" parent="AnimationController"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Grid" type="Panel" parent="AnimationController/UI_Background"]
+margin_right = 1280.0
+margin_bottom = 720.0
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Glow" type="Panel" parent="AnimationController/UI_Background"]
+margin_right = 1280.0
+margin_bottom = 720.0
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="UI_Globe" type="Control" parent="AnimationController"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameWindows" type="Control" parent="AnimationController"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="Control" parent="AnimationController"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 25 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="Panel" parent="AnimationController/Header"]
+margin_top = 18.0
+margin_right = 210.0
+margin_bottom = 67.0
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HeaderLine" type="Panel" parent="AnimationController/Header"]
+margin_top = 18.0
+margin_right = 1280.0
+margin_bottom = 21.0
+custom_styles/panel = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header_full" type="TextureProgress" parent="AnimationController/Header"]
+margin_left = 210.0
+margin_top = 17.0
+margin_right = 1764.0
+margin_bottom = 90.0
+rect_scale = Vector2( 0.667, 0.667 )
+rect_clip_content = true
+step = 0.1
+texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RemainingTime" type="Label" parent="AnimationController/Header"]
+margin_left = 48.0
+margin_top = 21.0
+margin_right = 210.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 27 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "00:00:000"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Footer" type="Control" parent="AnimationController"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+speed = 40.0
+
+[node name="WHOOPS Footer Scroll" type="Panel" parent="AnimationController/Footer"]
+margin_left = -1282.0
+margin_top = 648.0
+margin_right = -2.0
+margin_bottom = 696.0
+custom_styles/panel = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WHOOPS Footer" type="Panel" parent="AnimationController/Footer"]
+visible = false
+margin_left = -16.0
+margin_top = 648.0
+margin_right = 1264.0
+margin_bottom = 696.0
+custom_styles/panel = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WHOOPS Button" type="TextureButton" parent="AnimationController/Footer/WHOOPS Footer"]
+anchor_left = -0.00036869
+anchor_right = -0.00036869
+margin_left = 1092.47
+margin_top = 12.0
+margin_right = 1457.47
+margin_bottom = 84.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Worlds" type="Control" parent="AnimationController"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EmergencyWarning" type="Panel" parent="AnimationController/Worlds"]
+visible = false
+margin_left = 384.0
+margin_top = 103.0
+margin_right = 896.0
+margin_bottom = 615.0
+rect_pivot_offset = Vector2( 256, 256 )
+custom_styles/panel = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EmergencyWorld" type="Panel" parent="AnimationController/Worlds"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 384.0
+margin_top = 103.0
+margin_right = 896.0
+margin_bottom = 615.0
+custom_styles/panel = SubResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldNormal" type="Panel" parent="AnimationController/Worlds"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 384.0
+margin_top = 103.0
+margin_right = 896.0
+margin_bottom = 615.0
+custom_styles/panel = SubResource( 12 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="WorldBroken" type="Panel" parent="AnimationController/Worlds"]
+visible = false
+margin_left = 384.0
+margin_top = 103.0
+margin_right = 896.0
+margin_bottom = 615.0
+custom_styles/panel = SubResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shields" type="Control" parent="AnimationController"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 34 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shield1" type="Panel" parent="AnimationController/Shields"]
+visible = false
+margin_left = 384.0
+margin_top = 103.0
+margin_right = 896.0
+margin_bottom = 615.0
+custom_styles/panel = SubResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shield2" type="Panel" parent="AnimationController/Shields"]
+visible = false
+margin_left = 384.0
+margin_top = 103.0
+margin_right = 896.0
+margin_bottom = 615.0
+custom_styles/panel = SubResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shield3" type="Panel" parent="AnimationController/Shields"]
+visible = false
+margin_left = 384.0
+margin_top = 103.0
+margin_right = 896.0
+margin_bottom = 615.0
+custom_styles/panel = SubResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Modules" type="Control" parent="AnimationController"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ModulesLeft" type="Control" parent="AnimationController/Modules"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Module" type="Control" parent="AnimationController/Modules/ModulesLeft"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 33.5029
+margin_top = 86.8918
+margin_right = 275.503
+margin_bottom = 221.892
+script = ExtResource( 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+manager_path = NodePath("../../../../MainGame")
+title = "/SECURITY"
+description = ""
+
+[node name="ModuleButton" type="TextureButton" parent="AnimationController/Modules/ModulesLeft/Module"]
+margin_right = 364.0
+margin_bottom = 204.0
+rect_scale = Vector2( 0.665, 0.662 )
+toggle_mode = true
+texture_pressed = ExtResource( 31 )
+texture_hover = ExtResource( 20 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Progress" type="TextureProgress" parent="AnimationController/Modules/ModulesLeft/Module"]
+margin_left = 5.99326
+margin_top = 102.02
+margin_right = 351.993
+margin_bottom = 142.02
+rect_scale = Vector2( 0.667, 0.667 )
+max_value = 1.0
+step = 0.01
+value = 1.0
+texture_under = ExtResource( 23 )
+texture_progress = ExtResource( 24 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="AnimationController/Modules/ModulesLeft/Module"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 240.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 29 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "SECURITY"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Description" type="Label" parent="AnimationController/Modules/ModulesLeft/Module"]
+margin_left = 6.0
+margin_top = 42.0
+margin_right = 240.0
+margin_bottom = 99.0
+custom_fonts/font = ExtResource( 22 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "Security information goes here"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Module2" type="Control" parent="AnimationController/Modules/ModulesLeft"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 33.0
+margin_top = 223.0
+margin_right = 275.0
+margin_bottom = 358.0
+script = ExtResource( 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+manager_path = NodePath("../../../../MainGame")
+title = "/POWER SUPPLY"
+description = ""
+module = 1
+
+[node name="ModuleButton" type="TextureButton" parent="AnimationController/Modules/ModulesLeft/Module2"]
+margin_right = 364.0
+margin_bottom = 204.0
+rect_scale = Vector2( 0.665, 0.662 )
+toggle_mode = true
+texture_pressed = ExtResource( 31 )
+texture_hover = ExtResource( 20 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Progress" type="TextureProgress" parent="AnimationController/Modules/ModulesLeft/Module2"]
+margin_left = 5.99326
+margin_top = 102.02
+margin_right = 351.993
+margin_bottom = 142.02
+rect_scale = Vector2( 0.667, 0.667 )
+max_value = 1.0
+step = 0.01
+value = 1.0
+texture_under = ExtResource( 23 )
+texture_progress = ExtResource( 24 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="AnimationController/Modules/ModulesLeft/Module2"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 240.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 29 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "SECURITY"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Description" type="Label" parent="AnimationController/Modules/ModulesLeft/Module2"]
+margin_left = 6.0
+margin_top = 42.0
+margin_right = 240.0
+margin_bottom = 99.0
+custom_fonts/font = ExtResource( 22 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "Security information goes here"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Module3" type="Control" parent="AnimationController/Modules/ModulesLeft"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 33.0
+margin_top = 359.0
+margin_right = 275.0
+margin_bottom = 494.0
+script = ExtResource( 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+manager_path = NodePath("../../../../MainGame")
+title = "/INTEGRITY"
+description = ""
+module = 2
+
+[node name="ModuleButton" type="TextureButton" parent="AnimationController/Modules/ModulesLeft/Module3"]
+margin_right = 364.0
+margin_bottom = 204.0
+rect_scale = Vector2( 0.665, 0.662 )
+toggle_mode = true
+texture_pressed = ExtResource( 31 )
+texture_hover = ExtResource( 20 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Progress" type="TextureProgress" parent="AnimationController/Modules/ModulesLeft/Module3"]
+margin_left = 5.99326
+margin_top = 102.02
+margin_right = 351.993
+margin_bottom = 142.02
+rect_scale = Vector2( 0.667, 0.667 )
+max_value = 1.0
+step = 0.01
+value = 1.0
+texture_under = ExtResource( 23 )
+texture_progress = ExtResource( 24 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="AnimationController/Modules/ModulesLeft/Module3"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 240.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 29 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "SECURITY"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Description" type="Label" parent="AnimationController/Modules/ModulesLeft/Module3"]
+margin_left = 6.0
+margin_top = 42.0
+margin_right = 240.0
+margin_bottom = 99.0
+custom_fonts/font = ExtResource( 22 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "Security information goes here"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Module4" type="Control" parent="AnimationController/Modules/ModulesLeft"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 33.0
+margin_top = 495.0
+margin_right = 275.0
+margin_bottom = 630.0
+script = ExtResource( 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+manager_path = NodePath("../../../../MainGame")
+title = "/COMMUNICATION"
+description = ""
+module = 3
+
+[node name="ModuleButton" type="TextureButton" parent="AnimationController/Modules/ModulesLeft/Module4"]
+margin_right = 364.0
+margin_bottom = 204.0
+rect_scale = Vector2( 0.665, 0.662 )
+toggle_mode = true
+texture_pressed = ExtResource( 31 )
+texture_hover = ExtResource( 20 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Progress" type="TextureProgress" parent="AnimationController/Modules/ModulesLeft/Module4"]
+margin_left = 5.99326
+margin_top = 102.02
+margin_right = 351.993
+margin_bottom = 142.02
+rect_scale = Vector2( 0.667, 0.667 )
+max_value = 1.0
+step = 0.01
+value = 1.0
+texture_under = ExtResource( 23 )
+texture_progress = ExtResource( 24 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="AnimationController/Modules/ModulesLeft/Module4"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 240.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 29 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "SECURITY"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Description" type="Label" parent="AnimationController/Modules/ModulesLeft/Module4"]
+margin_left = 6.0
+margin_top = 42.0
+margin_right = 240.0
+margin_bottom = 99.0
+custom_fonts/font = ExtResource( 22 )
+custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
+text = "Security information goes here"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ModulesRight" type="Control" parent="AnimationController/Modules"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Welcome" type="Control" parent="AnimationController"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = SubResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WelcomeImage" type="Panel" parent="AnimationController/Welcome"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 191.0
+margin_top = 33.0
+margin_right = 1091.0
+margin_bottom = 625.0
+rect_pivot_offset = Vector2( 256, 256 )
+custom_styles/panel = SubResource( 20 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MainGame" parent="." instance=ExtResource( 32 )]
+module_timer = 5.0
+ModuleReductionRange = Vector2( 0.0025, 0.09 )
+[connection signal="animation_ended" from="AnimationController" to="MainGame" method="_on_AnimationController_animation_ended"]
+[connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module" method="_button_press"]
+[connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module2/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module2" method="_button_press"]
+[connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module3/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module3" method="_button_press"]
+[connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module4/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module4" method="_button_press"]
+[connection signal="time_update" from="MainGame" to="AnimationController/Header" method="_update_time"]
