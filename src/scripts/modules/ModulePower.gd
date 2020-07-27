@@ -1,157 +1,111 @@
-extends Control
+extends ModuleCore
 
-enum COUNTRY {
-	AFRICA = 0,
-	ASIA,
-	EUROPE,
-	NORTH_AMERICA,
-	SOUTH_AMERICA,
-	ANTARTICA,
-	AUSTRALIA
+onready var window = get_node("Window")
+onready var power_from = get_node("Window/PowerFrom")
+onready var power_to = get_node("Window/PowerTo")
+onready var power_perc = get_node("Window/PowerLevel/PowerPercentage")
+
+# TODO: Change window to use a power slider
+const CONTINENT_POWERS = {
+	GLOBALS.CONTINENT.AFRICA 			: 0.20,
+	GLOBALS.CONTINENT.ANTARTICA 		: 0.15,
+	GLOBALS.CONTINENT.ASIA 				: 0.55,
+	GLOBALS.CONTINENT.AUSTRALIA 		: 0.35,
+	GLOBALS.CONTINENT.EUROPE 			: 0.45,
+	GLOBALS.CONTINENT.NORTH_AMERICA 	: 0.50,
+	GLOBALS.CONTINENT.SOUTH_AMERICA 	: 0.25,
 }
 
-signal power_stolen
-signal finished
+var from_country = GLOBALS.CONTINENT.AFRICA
+var prev_from_country = GLOBALS.CONTINENT.AFRICA
+var from_validating := false
 
-var current_country = COUNTRY.AFRICA
+var to_country = GLOBALS.CONTINENT.SOUTH_AMERICA
+var prev_to_country = GLOBALS.CONTINENT.SOUTH_AMERICA
+var to_validating := false
+
 var power_level : float = 0.45
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#get_node("Countries/ButtonAfrica").set_pressed(true)
-	pass
+	window.window_title = "Power Relocation"
+	window.flavour_text = "Select a continent to transfer power from, this may affect relations with them."
+	_update_power_percentage(CONTINENT_POWERS[from_country])
+	get_node("Window/ButtonDivertPower").grab_focus()
+
+	yield(perform_opening_animation(), "completed")
 
 
-func initiate_minigame(value : float) -> void:
-	power_level = value
-
-	get_node("ButtonDivertPower").grab_focus()
-	get_node("ButtonSubmit").disabled = true
-
-	var power_whole = int(power_level * 100)
-
-	get_node("PowerLevel").value = power_whole
-	get_node("PowerLevel/PowerPercentage").text = String(power_whole) + "%"
+func _update_power_percentage(value : float) -> void:
+	power_perc.text = "+%d%s" % [value * 100.0, "%"]
 
 
-func _on_ButtonAfrica_toggled(button_pressed: bool) -> void:
-	current_country = COUNTRY.AFRICA
+func _power_from_toggler(button_pressed: bool) -> void:
+	if not from_validating:
+		from_validating = true
 
-	if button_pressed:
-		get_node("Countries/ButtonAsia").set_pressed(false)
-		get_node("Countries/ButtonEurope").set_pressed(false)
-		get_node("Countries/ButtonNorthAmerica").set_pressed(false)
-		get_node("Countries/ButtonSouthAmerica").set_pressed(false)
-		get_node("Countries/ButtonAntartica").set_pressed(false)
-		get_node("Countries/ButtonAustralia").set_pressed(false)
+		var node_to_check = power_from.get_focus_owner()
+		var idx := 0
 
+		for child in power_from.get_children():
+			if button_pressed:
+				if child  == node_to_check:
+					if idx == to_country:
+						child.set_pressed(false)
+						power_from.get_children()[from_country].set_pressed(true)
+						break
+					else:
+						from_country = idx
+						_update_power_percentage(CONTINENT_POWERS[from_country])
+				else:
+					child.set_pressed(false)
+			else:
+				if idx == from_country:
+					child.set_pressed(true)
+					break
+			idx += 1
 
-
-func _on_ButtonAsia_toggled(button_pressed: bool) -> void:
-	current_country = COUNTRY.ASIA
-
-	if button_pressed:
-		get_node("Countries/ButtonAfrica").set_pressed(false)
-		get_node("Countries/ButtonEurope").set_pressed(false)
-		get_node("Countries/ButtonNorthAmerica").set_pressed(false)
-		get_node("Countries/ButtonSouthAmerica").set_pressed(false)
-		get_node("Countries/ButtonAntartica").set_pressed(false)
-		get_node("Countries/ButtonAustralia").set_pressed(false)
-
-
-func _on_ButtonEurope_toggled(button_pressed: bool) -> void:
-	current_country = COUNTRY.EUROPE
-
-	if button_pressed:
-		get_node("Countries/ButtonAfrica").set_pressed(false)
-		get_node("Countries/ButtonAsia").set_pressed(false)
-		get_node("Countries/ButtonNorthAmerica").set_pressed(false)
-		get_node("Countries/ButtonSouthAmerica").set_pressed(false)
-		get_node("Countries/ButtonAntartica").set_pressed(false)
-		get_node("Countries/ButtonAustralia").set_pressed(false)
+		if prev_from_country != from_country:
+			prev_from_country = from_country
+		from_validating = false
 
 
-func _on_ButtonNorthAmerica_toggled(button_pressed: bool) -> void:
-	current_country = COUNTRY.NORTH_AMERICA
+func _power_to_toggler(button_pressed: bool) -> void:
+	if not to_validating:
+		to_validating = true
 
-	if button_pressed:
-		get_node("Countries/ButtonAfrica").set_pressed(false)
-		get_node("Countries/ButtonAsia").set_pressed(false)
-		get_node("Countries/ButtonEurope").set_pressed(false)
-		get_node("Countries/ButtonSouthAmerica").set_pressed(false)
-		get_node("Countries/ButtonAntartica").set_pressed(false)
-		get_node("Countries/ButtonAustralia").set_pressed(false)
+		var node_to_check = power_to.get_focus_owner()
+		var idx := 0
 
+		for child in power_to.get_children():
+			if button_pressed:
+				if child  == node_to_check:
+					if idx == from_country:
+						child.set_pressed(false)
+						power_to.get_children()[to_country].set_pressed(true)
+						break
+					else:
+						to_country = idx
+				else:
+					child.set_pressed(false)
+			else:
+				if idx == to_country:
+					child.set_pressed(true)
+					break
+			idx += 1
 
-func _on_ButtonSouthAmerica_toggled(button_pressed: bool) -> void:
-	current_country = COUNTRY.SOUTH_AMERICA
+		if prev_to_country != to_country:
+			prev_to_country = to_country
 
-	if button_pressed:
-		get_node("Countries/ButtonAfrica").set_pressed(false)
-		get_node("Countries/ButtonAsia").set_pressed(false)
-		get_node("Countries/ButtonEurope").set_pressed(false)
-		get_node("Countries/ButtonNorthAmerica").set_pressed(false)
-		get_node("Countries/ButtonAntartica").set_pressed(false)
-		get_node("Countries/ButtonAustralia").set_pressed(false)
-
-
-func _on_ButtonAntartica_toggled(button_pressed: bool) -> void:
-	current_country = COUNTRY.ANTARTICA
-
-	if button_pressed:
-		get_node("Countries/ButtonAfrica").set_pressed(false)
-		get_node("Countries/ButtonAsia").set_pressed(false)
-		get_node("Countries/ButtonEurope").set_pressed(false)
-		get_node("Countries/ButtonNorthAmerica").set_pressed(false)
-		get_node("Countries/ButtonSouthAmerica").set_pressed(false)
-		get_node("Countries/ButtonAustralia").set_pressed(false)
-
-
-func _on_ButtonAustralia_toggled(button_pressed: bool) -> void:
-	current_country = COUNTRY.AUSTRALIA
-
-	if button_pressed:
-		get_node("Countries/ButtonAfrica").set_pressed(false)
-		get_node("Countries/ButtonAsia").set_pressed(false)
-		get_node("Countries/ButtonEurope").set_pressed(false)
-		get_node("Countries/ButtonNorthAmerica").set_pressed(false)
-		get_node("Countries/ButtonSouthAmerica").set_pressed(false)
-		get_node("Countries/ButtonAntartica").set_pressed(false)
+		to_validating = false
 
 
 func _on_ButtonDivertPower_pressed() -> void:
-	# Different countries will provide different returned energy,
-	# but doing so will piss the country off.
-	var value = 0
-
-	if (current_country == COUNTRY.AFRICA):
-		value = 0.0025
-	elif (current_country == COUNTRY.ASIA):
-		value = 0.011
-	elif (current_country == COUNTRY.EUROPE):
-		value = 0.009
-	elif (current_country == COUNTRY.NORTH_AMERICA):
-		value = 0.01
-	elif (current_country == COUNTRY.SOUTH_AMERICA):
-		value = 0.0025
-	elif (current_country == COUNTRY.ANTARTICA):
-		value = 0.0025
-	elif (current_country == COUNTRY.AUSTRALIA):
-		value = 0.0055
-	power_level += value
-	emit_signal("power_stolen", current_country, value)
-
-	var power_whole = int(power_level * 100)
-
-	get_node("PowerLevel").value = power_whole
-	get_node("PowerLevel/PowerPercentage").text = String(power_whole) + "%"
-
-	if power_whole >= 75:
-		get_node("ButtonSubmit").disabled = false
-
-func _on_ButtonSubmit_pressed() -> void:
-	emit_signal("finished", true, power_level)
-
-
-func _on_ButtonCancel_pressed() -> void:
-	emit_signal("finished", false, 0)
+	yield(perform_closing_animation(), "completed")
+	emit_signal("finished", WINDOW_RESULT.SUBMIT,
+	{
+		"module"	: current_module,
+		"from" 		: from_country,
+		"to" 		: to_country,
+		"value"		: CONTINENT_POWERS[from_country],
+	})

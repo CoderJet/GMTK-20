@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/textures/Window/Window.png" type="Texture" id=1]
+[ext_resource path="res://assets/fonts/12/GOTHIC12.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/fonts/16/GOTHICB16.tres" type="DynamicFont" id=3]
+[ext_resource path="res://src/scripts/modules/_module-window/ModuleWindow.gd" type="Script" id=4]
+
+[node name="Window" type="NinePatchRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -396.751
+margin_top = -299.266
+margin_right = 403.249
+margin_bottom = 300.734
+texture = ExtResource( 1 )
+patch_margin_left = 71
+patch_margin_top = 71
+patch_margin_right = 71
+patch_margin_bottom = 45
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WindowTitle" type="Label" parent="."]
+margin_left = 8.75101
+margin_top = 1.26599
+margin_right = 177.751
+margin_bottom = 22.266
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Window Title"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FlavourText" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -348.249
+margin_top = -247.734
+margin_right = 347.751
+margin_bottom = -183.734
+rect_pivot_offset = Vector2( 128, 32 )
+custom_fonts/font = ExtResource( 2 )
+text = "Flavour Text"

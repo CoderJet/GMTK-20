@@ -86,7 +86,7 @@ func open_captcha_game(module : int) -> void:
 		var difficulty = max((5 - int(time_remaining/60)) + 1, 3)
 
 		currentNode = captchaPackedScene.instance()
-		currentNode.initiate_minigame(module, difficulty)
+		currentNode.initialise(module, difficulty)
 		currentNode.connect("finished", self, "_on_captcha_closed")
 		add_child(currentNode)
 
@@ -98,37 +98,47 @@ func open_button_mash_game(module : int) -> void:
 			difficulty = 3
 
 		currentNode = buttonPackedScene.instance()
-		currentNode.initiate_minigame(module, difficulty)
+		currentNode.initialise(module, difficulty)
 		currentNode.connect("finished", self, "_on_button_mash_closed")
 		add_child(currentNode)
 
 
-func open_space_mash_game(module_caller : int) -> void:
+func open_space_mash_game(module : int) -> void:
 	if currentNode == null:
 		currentNode = spacePackedScene.instance()
-		currentNode.initiate_minigame(module_statistics[GLOBALS.MODULE.POWER_SUPPLY])
+		currentNode.initialise(module)
 		currentNode.connect("finished", self, "_on_space_mash_closed")
 		add_child(currentNode)
 
 
-func open_switch_game(module_caller : int) -> void:
+func open_switch_game(module : int) -> void:
 	if currentNode == null:
 		currentNode = switchMiniGame.instance()
-		randomize()
-
-		if randf() > 0.25:
-			currentNode.initiate_minigame(currentNode.CALL_TYPE.WORK)
-		else:
-			currentNode.initiate_minigame(currentNode.CALL_TYPE.PERSONAL)
-
+		currentNode.initialise(module)
 		currentNode.connect("finished", self, "_on_switch_closed")
 		add_child(currentNode)
 
 
 ## GLOBALS.MODULE FUNCTIONS
-func _on_captcha_closed(value : bool, module : int) -> void:
+func _on_captcha_closed(window_result : int, data_dict : Dictionary) -> void:
+	if window_result == ModuleCore.WINDOW_RESULT.SUBMIT:
+		var module = data_dict["module"]
+		var value = data_dict["value"]
+		remove_child(currentNode)
+		currentNode = null
+
+		if value:
+			module_statistics[module] += 0.25
+		else:
+			module_statistics[module] -= 0.35
+		emit_signal("module_update", module, module_statistics[module])
+
+
+func _on_button_mash_closed(window_result : int, data_dict : Dictionary) -> void:
 	remove_child(currentNode)
 	currentNode = null
+	var module = data_dict["module"]
+	var value = data_dict["value"]
 
 	if value:
 		module_statistics[module] += 0.25
@@ -137,37 +147,30 @@ func _on_captcha_closed(value : bool, module : int) -> void:
 	emit_signal("module_update", module, module_statistics[module])
 
 
-func _on_button_mash_closed(value : bool, module : int) -> void:
+func _on_space_mash_closed(window_result : int, data_dict : Dictionary) -> void:
+	if window_result == ModuleCore.WINDOW_RESULT.SUBMIT:
+		var module = data_dict["module"]
+		var value = data_dict["value"]
+
+		remove_child(currentNode)
+		currentNode = null
+
+		module_statistics[module] += value
+		module_statistics[module] = min(100, module_statistics[module])
+		emit_signal("module_update", module, module_statistics[module])
+
+
+func _on_switch_closed(window_result : int, data_dict : Dictionary) -> void:
 	remove_child(currentNode)
 	currentNode = null
+	var module = data_dict["module"]
+	var value = data_dict["value"]
 
 	if value:
 		module_statistics[module] += 0.25
 	else:
 		module_statistics[module] -= 0.35
 	emit_signal("module_update", module, module_statistics[module])
-
-
-func _on_space_mash_closed(value : bool, power : float) -> void:
-	remove_child(currentNode)
-	currentNode = null
-
-	if value:
-		module_statistics[GLOBALS.MODULE.POWER_SUPPLY] = power
-	else:
-		module_statistics[GLOBALS.MODULE.POWER_SUPPLY] -= 0.35
-	emit_signal("module_update", GLOBALS.MODULE.POWER_SUPPLY, module_statistics[GLOBALS.MODULE.POWER_SUPPLY])
-
-
-func _on_switch_closed(value : bool) -> void:
-	remove_child(currentNode)
-	currentNode = null
-
-	if value:
-		module_statistics[GLOBALS.MODULE.COMMUNICATION] += 0.25
-	else:
-		module_statistics[GLOBALS.MODULE.COMMUNICATION] -= 0.35
-	emit_signal("module_update", GLOBALS.MODULE.COMMUNICATION, module_statistics[GLOBALS.MODULE.COMMUNICATION])
 
 ## HELPER FUNCTIONS
 func _module_to_string(value : int) -> String:

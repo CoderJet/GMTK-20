@@ -1,4 +1,4 @@
-extends Node2D
+extends ModuleCore
 
 enum FILE_TYPE {
 	CODE = 0,
@@ -6,9 +6,8 @@ enum FILE_TYPE {
 	EMAIL = 2,
 }
 
-signal finished
-
-onready var textBox = get_node("CanvasLayer/TextArea")
+onready var window = get_node("Window")
+onready var textBox = get_node("Window/TextAreaBorder/TextArea")
 
 const CODE_PATH = "res://src/scenes/modules/module-software-integrity/Files/Code/"
 const RECIPE_PATH = "res://src/scenes/modules/module-software-integrity/Files/Recipes/"
@@ -17,13 +16,41 @@ const EMAIL_PATH = "res://src/scenes/modules/module-software-integrity/Files/Ema
 var message := String()
 var key_press_count : int = 0
 var current_file_type = FILE_TYPE.CODE
-var current_module = GLOBALS.MODULE.SOFTWARE_INTEGRITY
 var initiated = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	initiate_minigame(GLOBALS.MODULE.SOFTWARE_INTEGRITY, 1)
-	pass
+	window.window_title = "Integrity?"
+	window.flavour_text = "Baba-baloo?"
+
+	var path
+	var result
+
+	if current_module == GLOBALS.MODULE.SOFTWARE_INTEGRITY:
+		current_file_type = FILE_TYPE.CODE
+		path = CODE_PATH + str(current_difficulty) + "/"
+		#path = result[randi() % result.size()]
+		result = path + _dir_contents(path)[0]
+	else:
+		randomize()
+
+		if (randf() > 0.5):
+			current_file_type = FILE_TYPE.RECIPE
+			path = RECIPE_PATH + str(current_difficulty) + "/"
+			print (path)
+			#path = result[randi() % result.size()]
+			result = path + _dir_contents(path)[0]
+		else:
+			current_file_type = FILE_TYPE.EMAIL
+			path = EMAIL_PATH + str(current_difficulty) + "/"
+			print (path)
+			#path = result[randi() % result.size()]
+			result = path + _dir_contents(path)[0]
+
+	_load_file(result)
+	initiated = true
+
+	yield(perform_opening_animation(), "completed")
 
 
 func _unhandled_key_input(event: InputEventKey) -> void:
@@ -38,33 +65,6 @@ func _unhandled_key_input(event: InputEventKey) -> void:
 		else:
 			textBox.bbcode_text = message.substr(0, key_press_count);
 
-
-func initiate_minigame(module : int, difficulty : int) -> void:
-	current_module = module
-	var path
-	var result
-
-	if module == GLOBALS.MODULE.SOFTWARE_INTEGRITY:
-		current_file_type = FILE_TYPE.CODE
-		path = CODE_PATH + str(difficulty) + "/"
-		#path = result[randi() % result.size()]
-		result = path + _dir_contents(path)[0]
-	else:
-		randomize()
-
-		if (randf() > 0.5):
-			current_file_type = FILE_TYPE.RECIPE
-			path = _dir_contents(RECIPE_PATH + str(difficulty) + "/")
-			#path = result[randi() % result.size()]
-			result = path + _dir_contents(path)[0]
-		else:
-			current_file_type = FILE_TYPE.EMAIL
-			path = _dir_contents(EMAIL_PATH + str(difficulty) + "/")
-			#path = result[randi() % result.size()]
-			result = path + _dir_contents(path)[0]
-
-	_load_file(result)
-	initiated = true
 
 func _dir_contents(path) -> PoolStringArray:
 	var items := PoolStringArray()
@@ -102,10 +102,11 @@ func _on_TextureButton_pressed() -> void:
 	var a : float = textBox.bbcode_text.length()
 	var b : float = message.length() + (10 if current_file_type == FILE_TYPE.CODE else 0)
 	var score = min(max(1, a) / b, 1)
-	print(score)
 
-	## Check against game's pass criteria
-	if score >= 0.5:
-		emit_signal("finished", true, current_module)
-	else:
-		emit_signal("finished", false, current_module)
+	yield(perform_closing_animation(), "completed")
+	# Submit the text
+	emit_signal("finished", WINDOW_RESULT.SUBMIT,
+	{
+		"module"	: current_module,
+		"value" 	: score >= 0.5,
+	})

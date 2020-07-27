@@ -8,9 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Control",
+"class": "ModuleCore",
+"language": "GDScript",
+"path": "res://src/scripts/modules/_module-window/ModuleCore.gd"
+}, {
+"base": "NinePatchRect",
+"class": "ModuleWindow",
+"language": "GDScript",
+"path": "res://src/scripts/modules/_module-window/ModuleWindow.gd"
+} ]
 _global_script_class_icons={
-
+"ModuleCore": "",
+"ModuleWindow": ""
 }
 
 [application]

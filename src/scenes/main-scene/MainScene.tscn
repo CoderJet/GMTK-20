@@ -58,43 +58,43 @@ region_rect = Rect2( 0, 0, 340, 73 )
 texture = ExtResource( 33 )
 region_rect = Rect2( 0, 0, 1554, 5 )
 
-[sub_resource type="StyleBoxTexture" id=8]
+[sub_resource type="StyleBoxTexture" id=6]
 texture = ExtResource( 1 )
 region_rect = Rect2( 0, 0, 1867, 72 )
 
-[sub_resource type="StyleBoxTexture" id=9]
+[sub_resource type="StyleBoxTexture" id=7]
 texture = ExtResource( 5 )
 region_rect = Rect2( 0, 0, 1867, 72 )
 
-[sub_resource type="StyleBoxTexture" id=10]
+[sub_resource type="StyleBoxTexture" id=8]
 texture = ExtResource( 7 )
 region_rect = Rect2( 0, 0, 728, 729 )
 
-[sub_resource type="StyleBoxTexture" id=11]
+[sub_resource type="StyleBoxTexture" id=9]
 texture = ExtResource( 11 )
 region_rect = Rect2( 0, 0, 728, 729 )
 
-[sub_resource type="StyleBoxTexture" id=12]
+[sub_resource type="StyleBoxTexture" id=10]
 texture = ExtResource( 10 )
 region_rect = Rect2( 0, 0, 728, 729 )
 
-[sub_resource type="StyleBoxTexture" id=13]
+[sub_resource type="StyleBoxTexture" id=11]
 texture = ExtResource( 12 )
 region_rect = Rect2( 0, 0, 728, 729 )
 
-[sub_resource type="StyleBoxTexture" id=14]
+[sub_resource type="StyleBoxTexture" id=12]
 texture = ExtResource( 13 )
 region_rect = Rect2( 0, 0, 728, 729 )
 
-[sub_resource type="StyleBoxTexture" id=15]
+[sub_resource type="StyleBoxTexture" id=13]
 texture = ExtResource( 14 )
 region_rect = Rect2( 0, 0, 728, 729 )
 
-[sub_resource type="StyleBoxTexture" id=16]
+[sub_resource type="StyleBoxTexture" id=14]
 texture = ExtResource( 8 )
 region_rect = Rect2( 0, 0, 728, 729 )
 
-[sub_resource type="GDScript" id=19]
+[sub_resource type="GDScript" id=15]
 script/source = "extends Control
 
 
@@ -113,19 +113,13 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="StyleBoxTexture" id=20]
+[sub_resource type="StyleBoxTexture" id=16]
 texture = ExtResource( 16 )
 region_rect = Rect2( 0, 0, 1282, 845 )
 
 [node name="GameRoot" type="Control"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -640.0
-margin_top = -360.0
-margin_right = 640.0
-margin_bottom = 360.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -267,7 +261,7 @@ margin_left = -1282.0
 margin_top = 648.0
 margin_right = -2.0
 margin_bottom = 696.0
-custom_styles/panel = SubResource( 8 )
+custom_styles/panel = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -278,7 +272,7 @@ margin_left = -16.0
 margin_top = 648.0
 margin_right = 1264.0
 margin_bottom = 696.0
-custom_styles/panel = SubResource( 9 )
+custom_styles/panel = SubResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -311,7 +305,7 @@ margin_top = 103.0
 margin_right = 896.0
 margin_bottom = 615.0
 rect_pivot_offset = Vector2( 256, 256 )
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -323,7 +317,7 @@ margin_left = 384.0
 margin_top = 103.0
 margin_right = 896.0
 margin_bottom = 615.0
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -334,7 +328,7 @@ margin_left = 384.0
 margin_top = 103.0
 margin_right = 896.0
 margin_bottom = 615.0
-custom_styles/panel = SubResource( 12 )
+custom_styles/panel = SubResource( 10 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -346,7 +340,7 @@ margin_left = 384.0
 margin_top = 103.0
 margin_right = 896.0
 margin_bottom = 615.0
-custom_styles/panel = SubResource( 13 )
+custom_styles/panel = SubResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -365,7 +359,7 @@ margin_left = 384.0
 margin_top = 103.0
 margin_right = 896.0
 margin_bottom = 615.0
-custom_styles/panel = SubResource( 14 )
+custom_styles/panel = SubResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -376,7 +370,7 @@ margin_left = 384.0
 margin_top = 103.0
 margin_right = 896.0
 margin_bottom = 615.0
-custom_styles/panel = SubResource( 15 )
+custom_styles/panel = SubResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -387,7 +381,7 @@ margin_left = 384.0
 margin_top = 103.0
 margin_right = 896.0
 margin_bottom = 615.0
-custom_styles/panel = SubResource( 16 )
+custom_styles/panel = SubResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -685,7 +679,7 @@ margin_bottom = 40.0
 [node name="Welcome" type="Control" parent="AnimationController"]
 margin_right = 40.0
 margin_bottom = 40.0
-script = SubResource( 19 )
+script = SubResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -697,15 +691,29 @@ margin_top = 33.0
 margin_right = 1091.0
 margin_bottom = 625.0
 rect_pivot_offset = Vector2( 256, 256 )
-custom_styles/panel = SubResource( 20 )
+custom_styles/panel = SubResource( 16 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="MainGame" parent="." instance=ExtResource( 32 )]
+position = Vector2( 640, 360 )
 module_timer = 5.0
 ModuleReductionRange = Vector2( 0.0025, 0.09 )
+
+[node name="ModuleDock" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = -20.0
+margin_bottom = -20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="animation_ended" from="AnimationController" to="MainGame" method="_on_AnimationController_animation_ended"]
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module" method="_button_press"]
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module2/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module2" method="_button_press"]

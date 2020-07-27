@@ -1,4 +1,4 @@
-extends Control
+extends ModuleCore
 
 
 enum CALL_TYPE {
@@ -6,14 +6,15 @@ enum CALL_TYPE {
 	WORK,
 }
 
-signal finished
-
-onready var slider = $SlideBackground/SliderPickup
-onready var slider_anim = $SlideBackground/AnimationPlayer
-
-onready var female_avatar = $Avatars/FemalePortrait
-onready var male_avatar = $Avatars/MalePortrait
-onready var contact_name = $Avatars/ContactName
+## Window
+onready var window = get_node("Window")
+## Avatars
+onready var female_avatar = get_node("Window/Avatars/FemalePortrait")
+onready var male_avatar = get_node("Window/Avatars/MalePortrait")
+onready var contact_name = get_node("Window/Avatars/ContactName")
+## Switch controls
+onready var slider = get_node("Window/SlideBackground/SliderPickup")
+onready var slider_anim = get_node("Window/SlideBackground/AnimationPlayer")
 
 export (String, MULTILINE) var PersonalFemales
 export (String, MULTILINE) var PersonalMales
@@ -29,32 +30,31 @@ var current_call_type = CALL_TYPE.PERSONAL
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	window.window_title = "Tele-Comms"
+	window.flavour_text = ""
 
-
-func initiate_minigame(value : int) -> void:
-	current_call_type = value
+	current_call_type = CALL_TYPE.WORK if randf() > 0.5 else CALL_TYPE.PERSONAL
 	randomize()
 
 	if current_call_type == CALL_TYPE.PERSONAL:
 		if randf() > 0.25:
 			var items = PersonalFemales.split('\n')
-			$Avatars/ContactName.text = items[randi() % items.size()].strip_edges()
-			$Avatars/FemalePortrait.visible = true
+			contact_name.text = items[randi() % items.size()].strip_edges()
+			female_avatar.visible = true
 		else:
 			var items = PersonalMales.split('\n')
-			$Avatars/ContactName.text = items[randi() % items.size()].strip_edges()
-			$Avatars/MalePortrait.visible = true
+			contact_name.text = items[randi() % items.size()].strip_edges()
+			male_avatar.visible = true
 	else:
 		if randf() > 0.5:
 			var items = WorkFemales.split('\n')
-			$Avatars/ContactName.text = items[randi() % items.size()].strip_edges()
-			$Avatars/FemalePortrait.visible = true
+			contact_name.text = items[randi() % items.size()].strip_edges()
+			female_avatar.visible = true
 		else:
 			var items = WorkMales.split('\n')
-			$Avatars/ContactName.text = items[randi() % items.size()].strip_edges()
-			$Avatars/MalePortrait.visible = true
-
+			contact_name.text = items[randi() % items.size()].strip_edges()
+			male_avatar.visible = true
+	yield(perform_opening_animation(), "completed")
 
 func _process(delta: float) -> void:
 	if slider.rect_position.x == 256:
@@ -84,15 +84,25 @@ func _on_SliderPickup_button_up() -> void:
 		slider.rect_position.x = 0
 	else:
 		slider.rect_position.x = 256
-	#print_debug("Lost Focus")
 
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	slider_anim.stop()
-	$SlideBackground.visible =false
+	$Window/SlideBackground.visible =false
 	slider.rect_position.x = 0
-	emit_signal("finished", true)
+
+	_on_submit(true)
 
 
 func _on_ButtonHangUp_pressed() -> void:
-	emit_signal("finished", false)
+	_on_submit(false)
+
+
+func _on_submit(success : bool) -> void:
+	yield(perform_closing_animation(), "completed")
+	# Submit the text
+	emit_signal("finished", WINDOW_RESULT.SUBMIT if success else WINDOW_RESULT.CLOSE,
+	{
+		"module"	: current_module,
+		"value" 	: success,
+	})

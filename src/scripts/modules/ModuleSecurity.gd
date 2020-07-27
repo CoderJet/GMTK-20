@@ -1,4 +1,7 @@
-extends Node2D
+extends ModuleCore
+
+
+export (String, MULTILINE) var KeywordList
 
 const BB_CODES = [
 	## Out of the box
@@ -12,17 +15,18 @@ const BB_CODES = [
 	'[pulse color=#00FFAA height=0.0 freq=2.0]%s[/pulse]',
 	'[matrix clean=2.0 dirty=1.0 span=50]%s[/matrix]',
 ]
-signal finished
-
-export (String, MULTILINE) var KeywordList
 
 var word := ""
 
-onready var player_input = get_node("CanvasLayer/PlayerInput")
+onready var window = get_node("Window")
+onready var captcha_text = get_node("Window/CaptchaText")
+onready var player_input = get_node("Window/PlayerInputBorder/PlayerInput")
 
-var current_module = GLOBALS.MODULE.SECURITY
 
 func _ready():
+	window.window_title = "Security Checks"
+	window.flavour_text = "Enter in the below captcha in order to reconfigure security protocols."
+
 	randomize()
 	var items = KeywordList.split('\n')
 
@@ -30,11 +34,8 @@ func _ready():
 	randomize()
 	var bbcode_value = BB_CODES[randi() % BB_CODES.size()] % word
 
-	$CanvasLayer/CaptchaText.bbcode_text = "[center]\n\n%s[/center]" % bbcode_value
-
-
-func initiate_minigame(module : int, difficulty : int) -> void:
-	current_module = module
+	captcha_text.bbcode_text = "[center]\n\n%s[/center]" % bbcode_value
+	yield(perform_opening_animation(), "completed")
 
 
 func _unhandled_key_input(event: InputEventKey) -> void:
@@ -47,8 +48,10 @@ func _unhandled_key_input(event: InputEventKey) -> void:
 
 
 func _on_ButtonAuthenticate_pressed() -> void:
+	yield(perform_closing_animation(), "completed")
 	# Submit the text
-	if player_input.text.to_lower() == word.to_lower():
-		emit_signal("finished", true, current_module)
-	else:
-		emit_signal("finished", false, current_module)
+	emit_signal("finished", WINDOW_RESULT.SUBMIT,
+	{
+		"module"	: current_module,
+		"value" 	: player_input.text.to_lower() == word.to_lower(),
+	})

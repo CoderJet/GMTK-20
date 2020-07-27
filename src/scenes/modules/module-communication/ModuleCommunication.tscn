@@ -1,27 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/textures/Window/module-switch/windowbutton_switch_slider.png" type="Texture" id=1]
 [ext_resource path="res://assets/textures/Window/module-switch/windowbuttonswitchhangup.png" type="Texture" id=2]
 [ext_resource path="res://assets/textures/Window/module-switch/Slider_Node.png" type="Texture" id=3]
-[ext_resource path="res://assets/textures/Window/windowclear.png" type="Texture" id=4]
-[ext_resource path="res://assets/fonts/16/GOTHICB16.tres" type="DynamicFont" id=5]
+[ext_resource path="res://src/scenes/modules/_module-window/ModuleWindow.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/textures/Window/module-switch/windowbuttonswitchhangupblank.png" type="Texture" id=6]
 [ext_resource path="res://assets/textures/window_switch_graphic_portrait_male.png" type="Texture" id=7]
 [ext_resource path="res://assets/textures/window_switch_graphic_portrait_female.png" type="Texture" id=8]
 [ext_resource path="res://assets/fonts/24/GOTHICB-24.tres" type="DynamicFont" id=9]
 [ext_resource path="res://src/scripts/modules/ModuleCommunication.gd" type="Script" id=10]
-
-
-
-
-
-
-
-
-
-
-
-
 
 [sub_resource type="Animation" id=1]
 resource_name = "Fade"
@@ -40,8 +27,8 @@ tracks/0/keys = {
 }
 
 [node name="SwitchMiniGame" type="Control"]
-margin_right = 1280.0
-margin_bottom = 720.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -55,44 +42,18 @@ The Prime Minister"
 WorkMales = "Secretary of State Lionel
 The Janitor"
 
-[node name="Window" type="NinePatchRect" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -363.0
-margin_top = -272.5
-margin_right = 365.0
-margin_bottom = 270.5
-rect_pivot_offset = Vector2( 364, 271 )
-texture = ExtResource( 4 )
-region_rect = Rect2( 0.0443115, 0, 1091.96, 816 )
-patch_margin_left = 73
-patch_margin_top = 71
-patch_margin_right = 71
-patch_margin_bottom = 45
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Window" parent="." instance=ExtResource( 4 )]
+rect_pivot_offset = Vector2( 400, 300 )
 
-[node name="Label" type="Label" parent="Window"]
-margin_left = 2.35968
-margin_top = 0.707916
-margin_right = 128.36
-margin_bottom = 21.7079
-custom_fonts/font = ExtResource( 5 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "Communication"
-
-[node name="SlideBackground" type="TextureRect" parent="."]
+[node name="SlideBackground" type="TextureRect" parent="Window"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -182.5
-margin_top = 138.5
+margin_top = 145.266
 margin_right = 182.5
-margin_bottom = 209.5
+margin_bottom = 216.266
 rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 182, 35 )
 mouse_filter = 2
@@ -101,7 +62,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SliderPickup" type="TextureButton" parent="SlideBackground"]
+[node name="SliderPickup" type="TextureButton" parent="Window/SlideBackground"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -117,18 +78,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SlideBackground"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Window/SlideBackground"]
 anims/Fade = SubResource( 1 )
 
-[node name="ButtonHangUp" type="TextureButton" parent="."]
+[node name="ButtonHangUp" type="TextureButton" parent="Window"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -181.5
-margin_top = 180.5
-margin_right = 181.5
-margin_bottom = 251.5
+margin_left = -181.249
+margin_top = 190.266
+margin_right = 181.751
+margin_bottom = 261.266
 rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 181, 35 )
 texture_normal = ExtResource( 2 )
@@ -137,12 +98,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Avatars" type="Control" parent="."]
+[node name="Avatars" type="Control" parent="Window"]
+margin_left = -243.249
+margin_top = -60.734
+margin_right = -243.249
+margin_bottom = -60.734
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FemalePortrait" type="TextureRect" parent="Avatars"]
+[node name="FemalePortrait" type="TextureRect" parent="Window/Avatars"]
 visible = false
 margin_left = 484.0
 margin_top = 147.5
@@ -153,7 +118,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MalePortrait" type="TextureRect" parent="Avatars"]
+[node name="MalePortrait" type="TextureRect" parent="Window/Avatars"]
 visible = false
 margin_left = 483.56
 margin_top = 147.838
@@ -164,7 +129,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ContactName" type="Label" parent="Avatars"]
+[node name="ContactName" type="Label" parent="Window/Avatars"]
 margin_left = 484.0
 margin_top = 466.0
 margin_right = 797.0
@@ -177,7 +142,7 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="button_down" from="SlideBackground/SliderPickup" to="." method="_on_SliderPickup_button_down"]
-[connection signal="button_up" from="SlideBackground/SliderPickup" to="." method="_on_SliderPickup_button_up"]
-[connection signal="animation_finished" from="SlideBackground/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="pressed" from="ButtonHangUp" to="." method="_on_ButtonHangUp_pressed"]
+[connection signal="button_down" from="Window/SlideBackground/SliderPickup" to="." method="_on_SliderPickup_button_down"]
+[connection signal="button_up" from="Window/SlideBackground/SliderPickup" to="." method="_on_SliderPickup_button_up"]
+[connection signal="animation_finished" from="Window/SlideBackground/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="pressed" from="Window/ButtonHangUp" to="." method="_on_ButtonHangUp_pressed"]
