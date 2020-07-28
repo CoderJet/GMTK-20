@@ -9,27 +9,38 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Control",
-"class": "ModuleCore",
+"base": "Node",
+"class": "ModuleJobs",
 "language": "GDScript",
-"path": "res://src/scripts/modules/_module-window/ModuleCore.gd"
+"path": "res://src/scripts/modules/core/ModuleJobs.gd"
 }, {
 "base": "NinePatchRect",
 "class": "ModuleWindow",
 "language": "GDScript",
-"path": "res://src/scripts/modules/_module-window/ModuleWindow.gd"
+"path": "res://src/scripts/modules/core/ModuleWindow.gd"
+}, {
+"base": "Control",
+"class": "ModuleWindowCore",
+"language": "GDScript",
+"path": "res://src/scripts/modules/core/ModuleWindowCore.gd"
+}, {
+"base": "Node",
+"class": "WorkDaySystem",
+"language": "GDScript",
+"path": "res://src/scripts/systems/WorkDaySystem.gd"
 } ]
 _global_script_class_icons={
-"ModuleCore": "",
-"ModuleWindow": ""
+"ModuleJobs": "",
+"ModuleWindow": "",
+"ModuleWindowCore": "",
+"WorkDaySystem": ""
 }
 
 [application]
 
-config/name="GMTK-20"
+config/name="W.H.O.O.P.S"
 run/main_scene="res://src/scenes/main-scene/MainScene.tscn"
-boot_splash/image="res://assets/textures/graphic_failstate_rat.png"
-config/icon="res://assets/icon.png"
+config/icon="res://assets/textures/window_switch_graphic_portrait_male.png"
 
 [autoload]
 

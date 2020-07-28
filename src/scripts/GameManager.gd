@@ -121,7 +121,7 @@ func open_switch_game(module : int) -> void:
 
 ## GLOBALS.MODULE FUNCTIONS
 func _on_captcha_closed(window_result : int, data_dict : Dictionary) -> void:
-	if window_result == ModuleCore.WINDOW_RESULT.SUBMIT:
+	if window_result == ModuleWindowCore.WINDOW_RESULT.SUBMIT:
 		var module = data_dict["module"]
 		var value = data_dict["value"]
 		remove_child(currentNode)
@@ -148,7 +148,7 @@ func _on_button_mash_closed(window_result : int, data_dict : Dictionary) -> void
 
 
 func _on_space_mash_closed(window_result : int, data_dict : Dictionary) -> void:
-	if window_result == ModuleCore.WINDOW_RESULT.SUBMIT:
+	if window_result == ModuleWindowCore.WINDOW_RESULT.SUBMIT:
 		var module = data_dict["module"]
 		var value = data_dict["value"]
 

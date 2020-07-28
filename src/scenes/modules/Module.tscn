@@ -8,21 +8,12 @@
 [ext_resource path="res://assets/textures/modules/modulehitbox.png" type="Texture" id=6]
 [ext_resource path="res://src/scripts/modules/Module.gd" type="Script" id=7]
 
-
-
-
-
-
-
-
-
-
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=1]
 size = 30
 outline_color = Color( 0.341176, 0.996078, 0.92549, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=2]
 size = 18
 font_data = ExtResource( 2 )
 
@@ -33,10 +24,6 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-manager_path = null
-title = null
-description = null
-module = null
 
 [node name="ModuleButton" type="TextureButton" parent="."]
 margin_right = 364.0
@@ -70,7 +57,7 @@ margin_left = 6.0
 margin_top = 4.0
 margin_right = 240.0
 margin_bottom = 44.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
 text = "SECURITY"
 uppercase = true
@@ -83,7 +70,7 @@ margin_left = 6.0
 margin_top = 42.0
 margin_right = 240.0
 margin_bottom = 99.0
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.258824, 0.898039, 0.831373, 1 )
 text = "Security information goes here"
 autowrap = true

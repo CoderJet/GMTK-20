@@ -1,4 +1,4 @@
-extends ModuleCore
+extends ModuleWindowCore
 
 onready var window = get_node("Window")
 onready var power_from = get_node("Window/PowerFrom")

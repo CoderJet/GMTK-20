@@ -616,7 +616,6 @@ __meta__ = {
 manager_path = NodePath("../../../../MainGame")
 title = "/COMMUNICATION"
 description = ""
-module = 3
 
 [node name="ModuleButton" type="TextureButton" parent="AnimationController/Modules/ModulesLeft/Module4"]
 margin_right = 364.0
@@ -719,4 +718,3 @@ __meta__ = {
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module2/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module2" method="_button_press"]
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module3/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module3" method="_button_press"]
 [connection signal="pressed" from="AnimationController/Modules/ModulesLeft/Module4/ModuleButton" to="AnimationController/Modules/ModulesLeft/Module4" method="_button_press"]
-[connection signal="time_update" from="MainGame" to="AnimationController/Header" method="_update_time"]

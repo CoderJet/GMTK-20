@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/textures/Window/module-power/windowbutton_space_continent_northamercia_active.png" type="Texture" id=6]
 [ext_resource path="res://assets/textures/Window/module-power/windowbutton_space_continent_australia_active.png" type="Texture" id=7]
 [ext_resource path="res://assets/textures/Window/module-power/windowbutton_space_continent_southamerica_inactive.png" type="Texture" id=8]
-[ext_resource path="res://src/scenes/modules/_module-window/ModuleWindow.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/scenes/modules/core/ModuleWindow.tscn" type="PackedScene" id=9]
 [ext_resource path="res://assets/textures/Window/module-power/windowbutton_space_fail.png" type="Texture" id=10]
 [ext_resource path="res://assets/textures/Window/module-power/window_space_gauge_full.png" type="Texture" id=11]
 [ext_resource path="res://assets/textures/Window/module-power/windowbutton_space_continent_africa_active.png" type="Texture" id=12]
@@ -21,6 +21,7 @@
 [ext_resource path="res://assets/textures/Window/module-power/windowbutton_space_continent_europe_inactive.png" type="Texture" id=21]
 [ext_resource path="res://assets/fonts/72/GOTHICI-72.tres" type="DynamicFont" id=22]
 [ext_resource path="res://src/scripts/modules/ModulePower.gd" type="Script" id=23]
+
 
 [sub_resource type="InputEventKey" id=1]
 pressed = true

@@ -1,4 +1,4 @@
-extends ModuleCore
+extends ModuleWindowCore
 
 
 export (String, MULTILINE) var KeywordList

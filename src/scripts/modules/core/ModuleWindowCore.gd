@@ -1,5 +1,5 @@
 extends Control
-class_name ModuleCore
+class_name ModuleWindowCore
 ## Enums
 enum WINDOW_RESULT {
 	SUBMIT = 0,

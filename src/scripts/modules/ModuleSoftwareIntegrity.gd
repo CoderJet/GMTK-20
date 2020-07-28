@@ -1,4 +1,4 @@
-extends ModuleCore
+extends ModuleWindowCore
 
 enum FILE_TYPE {
 	CODE = 0,

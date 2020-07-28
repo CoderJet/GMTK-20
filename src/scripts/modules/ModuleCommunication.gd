@@ -1,4 +1,4 @@
-extends ModuleCore
+extends ModuleWindowCore
 
 
 enum CALL_TYPE {

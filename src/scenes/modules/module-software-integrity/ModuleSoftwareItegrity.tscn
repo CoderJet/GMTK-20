@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://src/scenes/modules/_module-window/ModuleWindow.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/scenes/modules/core/ModuleWindow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/textures/Window/module-software-integrity/windowbuttonmashfail.png" type="Texture" id=2]
 [ext_resource path="res://assets/textures/Window/module-software-integrity/windowbuttonmashsuccess.png" type="Texture" id=3]
 [ext_resource path="res://assets/fonts/16/GOTHIC16.tres" type="DynamicFont" id=4]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/fonts/16/GOTHICI16.tres" type="DynamicFont" id=6]
 [ext_resource path="res://assets/fonts/16/GOTHICBI16.tres" type="DynamicFont" id=7]
 [ext_resource path="res://src/scripts/modules/ModuleSoftwareIntegrity.gd" type="Script" id=8]
+
 
 [node name="ButtonMashGame" type="Control"]
 anchor_right = 1.0
